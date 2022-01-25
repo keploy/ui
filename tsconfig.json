@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "esnext",
+        "jsx": "preserve",
+        "lib": [
+          "dom",
+          "es6"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "removeComments": false,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "preserveConstEnums": true
+      },
+    "include": [
+        "src"
+    ]
+  }

@@ -93,9 +93,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/keploy/keploy-ui"
+    "url": "https://github.com/keploy/ui"
   },
   "bugs": {
-    "url": "https://github.com/keploy/keploy-ui/issues"
+    "url": "https://github.com/keploy/ui/issues"
   }
 }

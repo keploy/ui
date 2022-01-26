@@ -1,9 +1,9 @@
-import { useEffect } from "react"
-import { navigate } from "@reach/router"
+import React from "react"
 
-export default () => {
-  useEffect(() => {
-    navigate("/testlist")
-  }, [])
-  return null
+export default function NotFound() {
+  return (
+    <p>
+      404!
+    </p>
+  )
 }

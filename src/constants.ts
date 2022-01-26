@@ -3,8 +3,8 @@ import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client"
 import { BodyType, Method, TestCase, TestQuery, TestStatus } from "./services/queries"
 
 const fetch = require("node-fetch")
-export const SERVER_URL = ((process.env.GATSBY_API_URL == "" || process.env.GATSBY_API_URL == undefined) && typeof window !== 'undefined')? `${window.location.protocol}://${window.location.hostname}:${window.location.port}/api/` : `${process.env.GATSBY_API_URL}/`
-export const HTTP_LINK = createUploadLink({ uri: `query`, fetch: fetch })
+export const SERVER_URL = ((process.env.GATSBY_API_URL == "" || process.env.GATSBY_API_URL == undefined) && typeof window !== 'undefined')? `${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/` : `${process.env.GATSBY_API_URL}/`
+export const HTTP_LINK = createUploadLink({ uri: SERVER_URL + `query`, fetch: fetch })
 export const AUTH_LINK = new ApolloLink((operation, forward) => {
   // Use the setContext method to set the HTTP headers.
   operation.setContext({

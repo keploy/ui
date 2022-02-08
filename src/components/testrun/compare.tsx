@@ -1,14 +1,16 @@
 import React from "react"
-import { TestQuery } from "../../services/queries"
+import { GET_TC_META, NORMALISE_TC, TestcaseData, TestQuery } from "../../services/queries"
 import ReactDiffViewer, { DiffMethod } from "react-diff-viewer"
-import { Grid, List, ListItem, ListItemText, Typography } from "@mui/material"
-import { Close } from "@mui/icons-material"
+import { AlertProps, Grid, List, ListItem, ListItemText, Tooltip, Typography } from "@mui/material"
+import { CheckCircle, Close, Edit } from "@mui/icons-material"
 import { makeStyles } from "@mui/styles"
-import loadable from "@loadable/component"
 import { isJSON } from "../../services/services"
 import { a11yProps, AntTab, AntTabs, TabPanel } from "../global/tab-panel"
-
-const ReactJson = loadable(() => import("react-json-view"))
+import { ReactJson } from "../global/json"
+import { useMutation, useQuery } from "@apollo/client"
+import { navigate } from "gatsby"
+import CustomDialog from "../global/dialog"
+import CustomAlert from "../global/alert"
 
 export interface CompareViewProps {
   test: TestQuery
@@ -40,6 +42,39 @@ export default function CompareView(props: CompareViewProps) {
   const [value, setValue] = React.useState(0)
   const [valueRes, setResValue] = React.useState(0)
   const classes = useStyles()
+  const [openOK, setOpenOK] = React.useState(false);
+  const [alert, setAlert] = React.useState<AlertProps["severity"]>(undefined)
+  const { data } = useQuery<TestcaseData>(GET_TC_META,{ variables:{id: props.test.testCaseID} })
+
+  const [normaliseTc] = useMutation<{ normalizeTest: boolean }, { id: string }>(NORMALISE_TC, {
+    variables: {
+      id: props.test.id
+    }
+  })
+
+  const handleClickNormalise = () => {
+    normaliseTc()
+      .then((d) => {
+        if (d.data != null) {
+          if (d.data.normalizeTest) {
+            setAlert("success")
+          } else {
+            setAlert("error")
+          }
+        } else {
+          setAlert("error")
+        }
+        return
+      }).catch((err) => {
+      console.log(err)
+      setAlert("error")
+    })
+    handleCloseOK()
+  }
+
+  const handleCloseOK = () => {
+    setOpenOK(false);
+  }
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -56,14 +91,45 @@ export default function CompareView(props: CompareViewProps) {
           <AntTabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <AntTab label="Response" {...a11yProps(0)} normal={props.test.result.bodyResult.normal && (props.test.result.headersResult? props.test.result.headersResult.filter(hr => (!hr.normal)).length == 0 : true)}/>
             <AntTab label="Request" {...a11yProps(1)} />
-            {props.test.deps != null && (
-              <AntTab label="Dependency" {...a11yProps(2)} />
-            )}
+            <AntTab label="Dependency" {...a11yProps(2)} />
             <AntTab label="Raw Events" {...a11yProps(3)} />
           </AntTabs>
         </Grid>
         <Grid item xs={2} container justifyContent={"flex-end"} alignItems={"center"}>
-          <Close sx={{ marginRight: 2 }} onClick={() => {
+          {data != null && (
+            <Tooltip title={"Edit Test Case"}>
+              <Edit sx={{
+                marginRight: 2,
+                color: "#d2d2d2",
+                ':hover': {
+                  color: 'warning.main',
+                },
+              }}
+                    onClick={()=> {
+                      navigate("/testlist/tc/?id=" + props.test.testCaseID)
+                    }}
+              />
+            </Tooltip>
+          )}
+          {data != null && !(props.test.result.bodyResult.normal && (props.test.result.headersResult? props.test.result.headersResult.filter(hr => (!hr.normal)).length == 0 : true)) && (
+            <Tooltip title={ "Accept as Normal Behaviour"}>
+              <CheckCircle
+                onClick={()=> setOpenOK(true)}
+                sx={{
+                  marginRight: 2,
+                  color: "#d2d2d2",
+                  ':hover': {
+                    color: "#4caf50",
+                  },
+                }}/>
+            </Tooltip>
+          )}
+          <Close sx={{
+            marginRight: 2,
+            ':hover': {
+              color: "#851010",
+            },
+          }} onClick={() => {
             props.close()
           }} />
         </Grid>
@@ -76,31 +142,34 @@ export default function CompareView(props: CompareViewProps) {
           </AntTabs>
           <Grid container direction={"row"}>
             <TabPanel value={valueRes} index={0}>
-              <Grid item container>
-                <Grid item xs={6} sx={{ padding: 1 }}>
-                  <Typography className={classes.caption}>Expected Response</Typography>
+              { props.test.result.bodyResult != null && (
+                <Grid item container>
+                  <Grid item xs={6} sx={{ padding: 1 }}>
+                    <Typography className={classes.caption}>Expected Response</Typography>
+                  </Grid>
+                  <Grid item xs={6} sx={{ padding: 1 }}>
+                    <Typography className={classes.caption}>Actual Response</Typography>
+                  </Grid>
+                  <Grid container xs={12}>
+                    <ReactDiffViewer
+                      hideLineNumbers={true}
+                      styles={{
+                        line: {
+                          wordBreak: 'break-word',
+                        },
+                      }}
+                      compareMethod={DiffMethod.TRIMMED_LINES}
+                      oldValue={isJSON(props.test.result.bodyResult.expected) == "object" ? JSON.stringify(JSON.parse(props.test.result.bodyResult.expected), null, 2) : props.test.result.bodyResult.expected}
+                      newValue={isJSON(props.test.result.bodyResult.actual) == "object" ? JSON.stringify(JSON.parse(props.test.result.bodyResult.actual), null, 2) : props.test.result.bodyResult.actual}
+                      splitView={true}
+                      showDiffOnly={false}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={6} sx={{ padding: 1 }}>
-                  <Typography className={classes.caption}>Actual Response</Typography>
-                </Grid>
-                <Grid container xs={12}>
-                  <ReactDiffViewer
-                    hideLineNumbers={true}
-                    styles={{
-                      line: {
-                        wordBreak: 'break-word',
-                      },
-                    }}
-                    compareMethod={DiffMethod.TRIMMED_LINES}
-                    oldValue={isJSON(props.test.result.bodyResult.expected) == "object" ? JSON.stringify(JSON.parse(props.test.result.bodyResult.expected), null, 2) : props.test.result.bodyResult.expected}
-                    newValue={isJSON(props.test.result.bodyResult.actual) == "object" ? JSON.stringify(JSON.parse(props.test.result.bodyResult.actual), null, 2) : props.test.result.bodyResult.actual}
-                    splitView={true}
-                    showDiffOnly={false}
-                  />
-                </Grid>
-              </Grid>
+              )}
             </TabPanel>
           </Grid>
+
           <Grid container direction={"row"}>
             <TabPanel value={valueRes} index={1}>
               <Grid item container>
@@ -191,17 +260,19 @@ export default function CompareView(props: CompareViewProps) {
           </AntTabs>
           <Grid container direction={"row"} >
             <TabPanel value={valueRes} index={0}>
-              <Grid item container>
-                {isJSON(props.test.req.body) != "object" && (
-                  <Typography>{props.test.req.body}</Typography>
-                )}
-                {isJSON(props.test.req.body) == "object" && (
-                  <ReactJson
-                    quotesOnKeys={false}
-                    validationMessage={"JSON is invalid"}
-                    src={JSON.parse(props.test.req.body)} />
-                )}
-              </Grid>
+              { props.test.req.body != null && (
+                <Grid item container>
+                  {isJSON(props.test.req.body) != "object" && (
+                    <Typography>{props.test.req.body}</Typography>
+                  )}
+                  {isJSON(props.test.req.body) == "object" && (
+                    <ReactJson
+                      quotesOnKeys={false}
+                      validationMessage={"JSON is invalid"}
+                      src={JSON.parse(props.test.req.body!)} />
+                  )}
+                </Grid>
+              )}
             </TabPanel>
           </Grid>
           <Grid container direction={"row"}>
@@ -294,38 +365,43 @@ export default function CompareView(props: CompareViewProps) {
           </Grid>
         </TabPanel>
       </Grid>
-      {props.test.deps != null && (
-        <Grid container>
-          <TabPanel value={value} index={2}>
-            { props.test.deps.map(d => (
-              <React.Fragment>
-                <Typography sx={{ mt: 4, mb: 2, ml : 2 }} variant="h6" component="div">
-                  {d.name} <Typography variant={"caption"}> [ {d.type}  ] </Typography>
-                </Typography>
-                <List dense={true}>
-                  {d.meta.filter(dep => (dep.key != "name" && dep.key != "type")).map(m => (
-                    <ListItem>
-                      <Grid container>
-                        <Grid item xs={3}>
-                          <ListItemText primary={m.key} />
-                        </Grid>
-                        <Grid item xs={2} container justifyContent={"center"}>
-                          <ListItemText primary=":" />
-                        </Grid>
-                        <Grid item xs={7} container direction={"column"}>
-                          <Grid item>
-                            <ListItemText primary={m.value} />
-                          </Grid>
+      <Grid container>
+        <TabPanel value={value} index={2}>
+          { props.test.deps != null && props.test.deps.map(d => (
+            <React.Fragment>
+              <Typography sx={{ mt: 4, mb: 2, ml : 2 }} variant="h6" component="div">
+                {d.name} <Typography variant={"caption"}> [ {d.type}  ] </Typography>
+              </Typography>
+              <List dense={true}>
+                {d.meta?.filter(dep => (dep.key != "name" && dep.key != "type")).map(m => (
+                  <ListItem>
+                    <Grid container>
+                      <Grid item xs={3}>
+                        <ListItemText primary={m.key} />
+                      </Grid>
+                      <Grid item xs={2} container justifyContent={"center"}>
+                        <ListItemText primary=":" />
+                      </Grid>
+                      <Grid item xs={7} container direction={"column"}>
+                        <Grid item>
+                          <ListItemText primary={m.value} />
                         </Grid>
                       </Grid>
-                    </ListItem>
-                  ))}
-                </List>
-              </React.Fragment>
-            ))}
-          </TabPanel>
-        </Grid>
-      )}
+                    </Grid>
+                  </ListItem>
+                ))}
+              </List>
+            </React.Fragment>
+          ))}
+          { props.test.deps == null && (
+            <List dense={true}>
+              <ListItem className={classes.listItem}>
+                <ListItemText primary={"Empty"} />
+              </ListItem>
+            </List>
+          )}
+        </TabPanel>
+      </Grid>
       <Grid container>
         <TabPanel value={value} index={3}>
           <ReactJson
@@ -334,6 +410,14 @@ export default function CompareView(props: CompareViewProps) {
             src={JSON.parse(JSON.stringify(props.test))} />
         </TabPanel>
       </Grid>
+      <CustomDialog  msg={"By accepting this, the test case will be edited permanently.\n" +
+      "            Going forward the actual response of this test-case will be\n" +
+      "            the expected(normal) response. Do you still want to\n" +
+      "            continue?"}
+                     open={openOK} closefn={handleCloseOK} okfn={handleClickNormalise} title={"Use this Response as Normal Behaviour?"}/>
+      {alert != undefined && (
+        <CustomAlert msg={alert=="success"? "Test Case Updated!" : "Failed to Update!"} open={true} severity={alert}/>
+      )}
     </Grid>
   )
 }

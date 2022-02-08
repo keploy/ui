@@ -1,7 +1,8 @@
-import { TestCase, TestQuery, TestRunStatus } from "./queries"
+import { Method, TestCase, TestQuery, TestRunStatus } from "./queries"
 import { TestRow } from "../components/testrun/test-tab"
 import { createTheme } from "@mui/material/styles"
 import { TcRow } from "../components/testlist/tcs-tab"
+import moment from "moment"
 
 export const theme = createTheme({
   palette: {
@@ -10,21 +11,6 @@ export const theme = createTheme({
     }
   }
 })
-
-export function testURL(url: string) {
-  // returns true if testURL is not a valid URL
-  if (url.length == 0) return false
-  var res = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)
-  return !(res !== null)
-}
-
-export function round(num: number) {
-  return Math.round(num * 100) / 100
-}
-
-export function trimString(value: string) {
-  return value.trim()
-}
 
 export const bgImg = {
   backgroundImage:
@@ -37,10 +23,7 @@ export function convertTime(t: string) {
   if (t == undefined) {
     return "NAN"
   } else {
-    return (new Date(t).getDate() + "/" + new Date(t).getMonth()
-      + "/" + new Date(t).getFullYear()
-      + ", " + new Date(t).getHours() + ":"
-      + new Date(t).getMinutes())
+    return moment.utc(t).local().format('DD/MM/YY HH:mm')
   }
 }
 
@@ -77,12 +60,12 @@ export function getRows(tests: TestQuery[]) {
 export function getTcRows(tcs: TestCase[]) {
   return Array.from(tcs.reduce((map, t) => (
     map.set(t.id, {
-      uri: t.uri,
-      proto: t.httpReq.protoMajor + "." + t.httpReq.protoMinor,
+      uri: t.uri? t.uri : "",
+      proto: t.httpReq?.protoMajor + "." + t.httpReq?.protoMinor,
       id: t.id,
-      statusCode: t.httpResp.statusCode,
-      time: convertTime(t.updated),
-      method: t.httpReq.method
+      statusCode: t.httpResp? t.httpResp!.statusCode! : 0,
+      time: t.updated? convertTime(t.updated) : "",
+      method: t.httpReq? t.httpReq?.method! : Method.OPTIONS
     }), map
   ), new Map<string, TcRow>()).values())
 }
@@ -107,5 +90,33 @@ export function getStatusColor(status: TestRunStatus) {
     default : {
       return "warning.main"
     }
+  }
+}
+
+export function deepCopyTc(original : TestCase) {
+  return {
+    id : original.id,
+    created: original.created,
+    updated: original.updated,
+    captured: original.captured,
+    cid: original.cid,
+    app: original.app,
+    uri: original.uri,
+    httpReq: {
+      protoMajor: original.httpReq?.protoMajor,
+      protoMinor: original.httpReq?.protoMinor,
+      urlParam:  JSON.parse(JSON.stringify(original.httpReq?.urlParam)),
+      header:  JSON.parse(JSON.stringify(original.httpReq?.header)),
+      method: original.httpReq?.method,
+      body: original.httpReq?.body
+    },
+    deps: JSON.parse(JSON.stringify(original.deps)),
+    httpResp: {
+      statusCode: original.httpResp?.statusCode,
+      header:  JSON.parse(JSON.stringify(original.httpResp?.header)),
+      body: original.httpResp?.body
+    },
+    anchors:  JSON.parse(JSON.stringify(original.anchors)),
+    noise:  JSON.parse(JSON.stringify(original.noise))
   }
 }

@@ -36,7 +36,6 @@ const useStyles = makeStyles(() => ({
     "&:hover": {
       boxShadow: "rgba(0, 0, 0, 0.22) 0px 19px 43px",
       transform: "translate3d(0px, -1px, 0px)",
-      backgroundImage:'linear-gradient(to right, rgba(182,255,165,0.3), rgba(165,177,255,0.3))',
     },
     borderRadius: 10
   },

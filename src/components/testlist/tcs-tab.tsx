@@ -1,5 +1,5 @@
 import React from "react"
-import { AppTCs, DELETE_TC, GET_APP_TC, Method, TestCase } from "../../services/queries"
+import { AppTCsMeta, DELETE_TC, GET_APP_TC_META, Method } from "../../services/queries"
 import { getTcRows } from "../../services/services"
 import { DataGrid, GridCellParams, GridColDef, GridRenderCellParams, MuiEvent } from "@mui/x-data-grid"
 import { Box, IconButton } from "@mui/material"
@@ -12,7 +12,6 @@ import Empty from "../global/empty"
 import EmptyImg from "../../../static/empty2.png"
 import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
-import { defaultTc } from "../../constants"
 
 export interface TestTabProps {
   app: string
@@ -30,9 +29,9 @@ export interface TcRow {
 
 export default function TestCasesTab(props: TestTabProps) {
   const [pageSize, setPageSize] = React.useState<number>(25)
-  const [tc, setTc] = React.useState<TestCase>(defaultTc)
+  const [tc, setTc] = React.useState("")
   const [delete_tc, setDeleteTc] = React.useState("")
-  const { loading, error, data, refetch } = useQuery<AppTCs>(GET_APP_TC, {
+  const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
     variables: { app: props.app }
   })
 
@@ -45,7 +44,7 @@ export default function TestCasesTab(props: TestTabProps) {
   if (loading) return <Loading />
   if (error) return <ErrorView msg={error.message} />
 
-  if (data == undefined || data?.testCase == undefined || data?.testCase?.length == 0) {
+  if (data == undefined || data.testCase == undefined || data.testCase.length == 0) {
     return (<Empty doc={"https://github.com/keploy/keploy"} message={"No Test Cases Recorded Yet! "} image={EmptyImg}/>)
   }
 
@@ -148,7 +147,7 @@ export default function TestCasesTab(props: TestTabProps) {
         color: "#ffffff"
       }
     }}>
-      {tc.id == "" && (
+      {tc == "" && (
         <DataGrid rows={rows} columns={columns}
                   pageSize={pageSize}
                   onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
@@ -159,16 +158,16 @@ export default function TestCasesTab(props: TestTabProps) {
                     if (params.field != "methods"){
                       event.defaultMuiPrevented = true
                       let t = data.testCase.filter((item) => item.id == params.id)
-                      setTc(t[0])
+                      setTc(t[0].id)
                     } else {
                       setDeleteTc(params.row['id'])
                     }
                   }}
                   components={{ Toolbar: CustomToolbar }} />
       )}
-      {tc.id != "" && (
+      {tc != "" && (
         <TcsDetail tc={tc} close={() => {
-          setTc(defaultTc)
+          setTc("")
         }} />
       )}
     </Box>

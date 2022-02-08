@@ -17,7 +17,9 @@ export const AUTH_LINK = new ApolloLink((operation, forward) => {
 })
 export const CLIENT = new ApolloClient({
   link: AUTH_LINK.concat(HTTP_LINK),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache({
+    addTypename: false
+  })
 })
 
 export const defaultTc: TestCase = {

@@ -1,50 +1,8 @@
 import { gql } from "@apollo/client"
 
 export const EDIT_TESTCASE = gql`
-mutation updateTestCase( $tc: [TestInput])  {
-    updateTestCase(tc: $tc) {
-            id
-            created
-            updated
-            captured
-            cid
-            app
-            uri
-            httpReq {
-              protoMajor
-              protoMinor
-              urlParam {
-                  key
-                  value
-                }
-              header {
-                  key
-                  value
-                }
-              method
-              body
-            }
-            deps {
-                name
-                type
-                meta{
-                    key
-                    value
-                  }
-              }
-            httpResp {
-                    statusCode
-                    protoMajor
-                    protoMinor
-                    header {
-                          key
-                          value
-                      }
-                    body
-                }
-            anchors
-            noise
-   }
+mutation updateTestCase( $tc: [TestCaseInput])  {
+    updateTestCase(tc: $tc)
   }`
 
 export const GET_RECENT_TEST_RUNS = gql`
@@ -208,6 +166,44 @@ query getTc ($id : String!) {
 }
 `
 
+export const GET_TC_META =  gql`
+query getTc ($id : String!) {
+  testCase(id: $id) {
+          id
+          created
+          updated
+          captured
+          cid
+          app
+          uri
+  }
+}
+`
+
+export const GET_APP_TC_META = gql`
+query getTc ($app : String!) {
+  testCase(app: $app) {
+          id
+          created
+          updated
+          captured
+          uri
+          httpReq {
+              protoMajor
+              protoMinor
+              method
+            }
+            httpResp {
+                    statusCode
+                }
+          deps {
+                name
+                type
+            }
+  }
+}
+`
+
 export const GET_APP_TC = gql`
 query getTc ($app : String!) {
   testCase(app: $app) {
@@ -254,11 +250,21 @@ query getTc ($app : String!) {
 }
 `
 
+export const NORMALISE_TC = gql`
+  mutation normalizeTest( $id: String!) {
+    normalizeTest(id: $id) 
+  }
+`
+
 export interface AppsData {
   apps: App[]
 }
 
 export interface AppTCs {
+  testCase: TestCase[]
+}
+
+export interface AppTCsMeta {
   testCase: TestCase[]
 }
 
@@ -271,7 +277,7 @@ export interface RecentTestRunsData {
 }
 
 export interface TestcaseData {
-  tc: TestCase
+  testCase: TestCase[]
 }
 
 export interface App {
@@ -293,17 +299,17 @@ export interface TestRunQuery {
 
 export interface TestCase {
   id: string
-  created: string
-  updated: string
-  captured: string
-  cid: string
-  app: string
-  uri: string
-  httpReq: HttpReq
-  deps: Dependency[]
-  httpResp: Result
-  anchors: string[]
-  noise: string[]
+  created?: string
+  updated?: string
+  captured?: string
+  cid?: string
+  app?: string
+  uri?: string
+  httpReq?: HttpReq
+  deps?: Dependency[]
+  httpResp?: Result
+  anchors?: string[]
+  noise?: string[]
 }
 
 export interface TestQuery {
@@ -320,9 +326,9 @@ export interface TestQuery {
 }
 
 export interface Result {
-  statusCode: number
-  header: Header[]
-  body: string
+  statusCode?: number
+  header?: Header[]
+  body?: string
 }
 
 export interface ResultQuery {
@@ -366,16 +372,16 @@ export interface Header {
 export interface Dependency {
   name: string
   type: DependencyType
-  meta: KV[]
+  meta?: KV[]
 }
 
 export interface HttpReq {
-  protoMajor: number
-  protoMinor: number
-  urlParam: KV[]
-  header: Header[]
-  method: Method
-  body: string
+  protoMajor?: number
+  protoMinor?: number
+  urlParam?: KV[]
+  header?: Header[]
+  method?: Method
+  body?: string
 }
 
 export interface KV {

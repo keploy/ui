@@ -158,6 +158,7 @@ export default function CompareView(props: CompareViewProps) {
                           wordBreak: 'break-word',
                         },
                       }}
+                      noise={props.test.noise}
                       compareMethod={DiffMethod.TRIMMED_LINES}
                       oldValue={isJSON(props.test.result.bodyResult.expected) == "object" ? JSON.stringify(JSON.parse(props.test.result.bodyResult.expected), null, 2) : props.test.result.bodyResult.expected}
                       newValue={isJSON(props.test.result.bodyResult.actual) == "object" ? JSON.stringify(JSON.parse(props.test.result.bodyResult.actual), null, 2) : props.test.result.bodyResult.actual}

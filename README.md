@@ -51,19 +51,18 @@ git clone https://github.com/keploy/test-data.git && cd test-data
 ```
 Within test-data directory
 
-## Install mongo-database-tools
+#### Install mongo-database-tools
 ```
 brew tap mongodb/brew
 brew install mongodb-database-tools
 ```
-
-## Restore DB
+#### Restore DB
 ```
 mongorestore  dump/
 ```
 You should now be able to see test data on the UI.
 
 ## Community support
-We'd love to collaborate with you to make Keploy great. To get started:
+We'd love to collaborate with you to make Keploy great. To get started feel free to reach out to us :
 * [Slack](https://join.slack.com/t/keploy/shared_invite/zt-12rfbvc01-o54cOG0X1G6eVJTuI_orSA) - Discussions with the community and the team.
 * [GitHub](https://github.com/keploy/keploy/issues) - For bug reports and feature requests.

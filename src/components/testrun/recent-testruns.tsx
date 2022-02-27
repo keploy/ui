@@ -1,5 +1,6 @@
 import React from "react"
 import { GET_RECENT_TEST_RUNS, RecentTestRunsData } from "../../services/queries"
+import { POLLING_INTERVAL } from "../../constants"
 import SEO from "../global/seo"
 import { makeStyles } from "@mui/styles"
 import {
@@ -71,7 +72,9 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 
 export default function RecentTestRuns() {
   const classes = useStyles()
-  const { loading, error, data } = useQuery<RecentTestRunsData>(GET_RECENT_TEST_RUNS)
+  const { loading, error, data } = useQuery<RecentTestRunsData>(GET_RECENT_TEST_RUNS, {
+    pollInterval: POLLING_INTERVAL,
+  })
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />
   if (data == undefined || data?.testRun == undefined || data?.testRun.length == 0) {

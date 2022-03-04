@@ -1,4 +1,11 @@
-import { Grid, List, ListItem, ListItemText, Tooltip, Typography } from "@mui/material"
+import {
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Tooltip,
+  Typography,
+} from "@mui/material"
 import React from "react"
 import { Close, Edit } from "@mui/icons-material"
 import { makeStyles } from "@mui/styles"
@@ -24,24 +31,33 @@ export interface TcsDetailProps {
 const useStyles = makeStyles(() => ({
   listItem: {
     margin: 8,
-    wordBreak: "break-all"
+    wordBreak: "break-all",
   },
 }))
-
 
 export default function TcsDetail(props: TcsDetailProps) {
   const classes = useStyles()
   const [editTest, setEditTest] = React.useState(props.close == undefined)
   const [value, setValue] = React.useState(0)
   const [valueRes, setResValue] = React.useState(0)
-  const { loading, error, data: tc } = useQuery<TestcaseData>(GET_TC, {
-    variables: { id: props.tc }
+  const {
+    loading,
+    error,
+    data: tc,
+  } = useQuery<TestcaseData>(GET_TC, {
+    variables: { id: props.tc },
   })
 
   if (loading) return <Loading />
   if (error) return <ErrorView msg={error.message} />
   if (tc == null || tc.testCase == null || tc.testCase.length == null) {
-    return <Empty message={"Uh! Oh! This test case doesn't exist anymore."} doc={"https://docs.keploy.io"} image={EmptyImg}/>
+    return (
+      <Empty
+        message={"Uh! Oh! This test case doesn't exist anymore."}
+        doc={"https://docs.keploy.io"}
+        image={EmptyImg}
+      />
+    )
   }
 
   const data = tc.testCase[0]
@@ -55,50 +71,70 @@ export default function TcsDetail(props: TcsDetailProps) {
   }
 
   return (
-    <Grid sx={{minHeight: '80vh'}} >
+    <Grid sx={{ minHeight: "80vh" }}>
       {!editTest && (
         <React.Fragment>
           <Grid container>
             <Grid item xs={6}>
-              <AntTabs value={value} onChange={handleChange} aria-label="basic tabs">
+              <AntTabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs"
+              >
                 <AntTab label="Response" {...a11yProps(0)} />
                 <AntTab label="Request" {...a11yProps(1)} />
                 <AntTab label="Dependency" {...a11yProps(2)} />
                 <AntTab label="Raw Events" {...a11yProps(3)} />
               </AntTabs>
             </Grid>
-            <Grid item xs={6} container justifyContent={"flex-end"} alignItems={"center"}>
+            <Grid
+              item
+              xs={6}
+              container
+              justifyContent={"flex-end"}
+              alignItems={"center"}
+            >
               <Tooltip title={"Edit Test Case"}>
-                <Edit sx={{
-                  marginRight: 2,
-                  color: "#d2d2d2",
-                  ':hover': {
-                    color: 'warning.main',
-                  },
-                }}
-                      onClick={()=> {
-                        setEditTest(true)
-                        setValue(0)
-                      }}
+                <Edit
+                  sx={{
+                    marginRight: 2,
+                    color: "#d2d2d2",
+                    ":hover": {
+                      color: "warning.main",
+                    },
+                  }}
+                  onClick={() => {
+                    setEditTest(true)
+                    setValue(0)
+                  }}
                 />
               </Tooltip>
-              <Close sx={{ margin: 2 }} onClick={() => {
-                props.close? props.close() : navigate("/testlist")
-              }} />
+              <Close
+                sx={{ margin: 2 }}
+                onClick={() => {
+                  props.close ? props.close() : navigate("/testlist")
+                }}
+              />
             </Grid>
           </Grid>
           <Grid container>
             <TabPanel value={value} index={0}>
-              <AntTabs value={valueRes} onChange={handleChangeRes} aria-label="basic tabs example">
+              <AntTabs
+                value={valueRes}
+                onChange={handleChangeRes}
+                aria-label="basic tabs example"
+              >
                 <AntTab label="Body" {...a11yProps(0)} />
                 <AntTab label="Header" {...a11yProps(1)} />
               </AntTabs>
               <Grid container direction={"row"}>
                 <TabPanel value={valueRes} index={0}>
-                  { data.httpResp?.body != null && (
-                    <Grid item container sx={{marginBottom: 10}}>
+                  {data.httpResp?.body != null && (
+                    <Grid item container sx={{ marginBottom: 10 }}>
                       {isJSON(data.httpResp.body) != "object" && (
-                        <Typography sx={{margin: 2}}>{data.httpResp.body}</Typography>
+                        <Typography sx={{ margin: 2 }}>
+                          {data.httpResp.body}
+                        </Typography>
                       )}
                       {isJSON(data.httpResp.body) == "object" && (
                         <ReactJson
@@ -118,7 +154,7 @@ export default function TcsDetail(props: TcsDetailProps) {
                       )}
                     </Grid>
                   )}
-                  { data.httpResp?.body == null && (
+                  {data.httpResp?.body == null && (
                     <List dense={true}>
                       <ListItem className={classes.listItem}>
                         <ListItemText primary={"Empty"} />
@@ -129,32 +165,43 @@ export default function TcsDetail(props: TcsDetailProps) {
               </Grid>
               <Grid container direction={"row"}>
                 <TabPanel value={valueRes} index={1}>
-                  <Grid item container  sx={{marginBottom: 10}}>
-                    {data.httpResp?.header != null && [...data.httpResp.header].map((h) => (
-                      <Grid container>
-                        <Grid item xs sx={{ padding: 1 }}>
-                          <List dense={true}>
-                            <ListItem className={classes.listItem}>
-                              <Grid container>
-                                <Grid item xs={4}>
-                                  <ListItemText primary={h.key} />
+                  <Grid item container sx={{ marginBottom: 10 }}>
+                    {data.httpResp?.header != null &&
+                      [...data.httpResp.header].map(h => (
+                        <Grid container>
+                          <Grid item xs sx={{ padding: 1 }}>
+                            <List dense={true}>
+                              <ListItem className={classes.listItem}>
+                                <Grid container>
+                                  <Grid item xs={4}>
+                                    <ListItemText primary={h.key} />
+                                  </Grid>
+                                  <Grid
+                                    item
+                                    xs={2}
+                                    container
+                                    justifyContent={"center"}
+                                  >
+                                    <ListItemText primary=":" />
+                                  </Grid>
+                                  <Grid
+                                    item
+                                    xs={6}
+                                    container
+                                    direction={"column"}
+                                  >
+                                    {[...h.value].map(eh => (
+                                      <Grid item>
+                                        <ListItemText primary={eh} />
+                                      </Grid>
+                                    ))}
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={2} container justifyContent={"center"}>
-                                  <ListItemText primary=":" />
-                                </Grid>
-                                <Grid item xs={6} container direction={"column"}>
-                                  {([...h.value].map((eh) => (
-                                    <Grid item>
-                                      <ListItemText primary={eh} />
-                                    </Grid>
-                                  )))}
-                                </Grid>
-                              </Grid>
-                            </ListItem>
-                          </List>
+                              </ListItem>
+                            </List>
+                          </Grid>
                         </Grid>
-                      </Grid>
-                    ))}
+                      ))}
                     {data.httpResp?.header == null && (
                       <List dense={true}>
                         <ListItem className={classes.listItem}>
@@ -169,22 +216,29 @@ export default function TcsDetail(props: TcsDetailProps) {
           </Grid>
           <Grid container>
             <TabPanel value={value} index={1}>
-              <AntTabs value={valueRes} onChange={handleChangeRes} aria-label="basic tabs example">
+              <AntTabs
+                value={valueRes}
+                onChange={handleChangeRes}
+                aria-label="basic tabs example"
+              >
                 <AntTab label="Body" {...a11yProps(0)} />
                 <AntTab label="Header & Info" {...a11yProps(1)} />
               </AntTabs>
               <Grid container direction={"row"}>
                 <TabPanel value={valueRes} index={0}>
-                  { data.httpReq?.body != null && (
-                    <Grid item container  sx={{marginBottom: 10}}>
+                  {data.httpReq?.body != null && (
+                    <Grid item container sx={{ marginBottom: 10 }}>
                       {isJSON(data.httpReq.body) != "object" && (
-                        <Typography sx={{margin: 2}}>{data.httpReq.body}</Typography>
+                        <Typography sx={{ margin: 2 }}>
+                          {data.httpReq.body}
+                        </Typography>
                       )}
                       {isJSON(data.httpReq.body) == "object" && (
                         <ReactJson
                           quotesOnKeys={false}
                           validationMessage={"JSON is invalid"}
-                          src={JSON.parse(data.httpReq.body)} />
+                          src={JSON.parse(data.httpReq.body)}
+                        />
                       )}
                     </Grid>
                   )}
@@ -192,24 +246,51 @@ export default function TcsDetail(props: TcsDetailProps) {
               </Grid>
               <Grid container direction={"row"}>
                 <TabPanel value={valueRes} index={1}>
-                  { data.httpReq != null && (
-                    <Grid item container direction={"column"}  sx={{marginBottom: 10}}>
+                  {data.httpReq != null && (
+                    <Grid
+                      item
+                      container
+                      direction={"column"}
+                      sx={{ marginBottom: 10 }}
+                    >
                       <Grid item sx={{ padding: 3 }}>
-                        <Typography color={"text.secondary"} variant={"subtitle1"}>Info</Typography>
+                        <Typography
+                          color={"text.secondary"}
+                          variant={"subtitle1"}
+                        >
+                          Info
+                        </Typography>
                       </Grid>
-                      <Grid item xs={8} container direction={"column"} sx={{ padding: 3 }}>
+                      <Grid
+                        item
+                        xs={8}
+                        container
+                        direction={"column"}
+                        sx={{ padding: 3 }}
+                      >
                         <List dense={true}>
                           <ListItem className={classes.listItem}>
                             <Grid container>
                               <Grid item xs={3}>
                                 <ListItemText primary={"Protocol"} />
                               </Grid>
-                              <Grid item xs={2} container justifyContent={"center"}>
+                              <Grid
+                                item
+                                xs={2}
+                                container
+                                justifyContent={"center"}
+                              >
                                 <ListItemText primary=":" />
                               </Grid>
                               <Grid item xs={7} container direction={"column"}>
                                 <Grid item>
-                                  <ListItemText primary={data.httpReq.protoMajor + "." + data.httpReq.protoMinor} />
+                                  <ListItemText
+                                    primary={
+                                      data.httpReq.protoMajor +
+                                      "." +
+                                      data.httpReq.protoMinor
+                                    }
+                                  />
                                 </Grid>
                               </Grid>
                             </Grid>
@@ -219,7 +300,12 @@ export default function TcsDetail(props: TcsDetailProps) {
                               <Grid item xs={3}>
                                 <ListItemText primary={"Method"} />
                               </Grid>
-                              <Grid item xs={2} container justifyContent={"center"}>
+                              <Grid
+                                item
+                                xs={2}
+                                container
+                                justifyContent={"center"}
+                              >
                                 <ListItemText primary=":" />
                               </Grid>
                               <Grid item xs={7} container direction={"column"}>
@@ -234,7 +320,12 @@ export default function TcsDetail(props: TcsDetailProps) {
                               <Grid item xs={3}>
                                 <ListItemText primary={"URL"} />
                               </Grid>
-                              <Grid item xs={2} container justifyContent={"center"}>
+                              <Grid
+                                item
+                                xs={2}
+                                container
+                                justifyContent={"center"}
+                              >
                                 <ListItemText primary=":" />
                               </Grid>
                               <Grid item xs={7} container direction={"column"}>
@@ -247,29 +338,45 @@ export default function TcsDetail(props: TcsDetailProps) {
                         </List>
                       </Grid>
                       <Grid item sx={{ padding: 3 }}>
-                        <Typography color={"text.secondary"} variant={"subtitle1"}>Header</Typography>
+                        <Typography
+                          color={"text.secondary"}
+                          variant={"subtitle1"}
+                        >
+                          Header
+                        </Typography>
                       </Grid>
                       <Grid item xs={8} sx={{ padding: 2 }}>
                         <List dense={true}>
-                          {data.httpReq.header != null && [...data.httpReq.header].map((h) => (
-                            <ListItem className={classes.listItem}>
-                              <Grid container>
-                                <Grid item xs={3}>
-                                  <ListItemText primary={h.key} />
+                          {data.httpReq.header != null &&
+                            [...data.httpReq.header].map(h => (
+                              <ListItem className={classes.listItem}>
+                                <Grid container>
+                                  <Grid item xs={3}>
+                                    <ListItemText primary={h.key} />
+                                  </Grid>
+                                  <Grid
+                                    item
+                                    xs={2}
+                                    container
+                                    justifyContent={"center"}
+                                  >
+                                    <ListItemText primary=":" />
+                                  </Grid>
+                                  <Grid
+                                    item
+                                    xs={7}
+                                    container
+                                    direction={"column"}
+                                  >
+                                    {[...h.value].map(eh => (
+                                      <Grid item>
+                                        <ListItemText primary={eh} />
+                                      </Grid>
+                                    ))}
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={2} container justifyContent={"center"}>
-                                  <ListItemText primary=":" />
-                                </Grid>
-                                <Grid item xs={7} container direction={"column"}>
-                                  {([...h.value].map((eh) => (
-                                    <Grid item>
-                                      <ListItemText primary={eh} />
-                                    </Grid>
-                                  )))}
-                                </Grid>
-                              </Grid>
-                            </ListItem>
-                          ))}
+                              </ListItem>
+                            ))}
                           {data.httpReq.header == null && (
                             <List dense={true}>
                               <ListItem className={classes.listItem}>
@@ -290,37 +397,54 @@ export default function TcsDetail(props: TcsDetailProps) {
               <ReactJson
                 quotesOnKeys={false}
                 validationMessage={"JSON is invalid"}
-                src={JSON.parse(JSON.stringify(data))} />
+                src={JSON.parse(JSON.stringify(data))}
+              />
             </TabPanel>
           </Grid>
-          <Grid container sx={{mb: 10}}>
+          <Grid container sx={{ mb: 10 }}>
             <TabPanel value={value} index={2}>
-              { data.deps != null && data.deps.map(d => (
-                <React.Fragment>
-                  <Typography sx={{ mt: 4, mb: 2, ml : 2 }} variant="h6" component="div">
-                    {d.name} <Typography variant={"caption"}> [ {d.type}  ] </Typography>
-                  </Typography>
-                  <List dense={true}>
-                    {d.meta?.filter(dep => (dep.key != "name" && dep.key != "type")).map(m => (
-                      <ListItem>
-                        <Grid container>
-                          <Grid item xs={3}>
-                            <ListItemText primary={m.key} />
-                          </Grid>
-                          <Grid item xs={2} container justifyContent={"center"}>
-                            <ListItemText primary=":" />
-                          </Grid>
-                          <Grid item xs={7} container direction={"column"}>
-                            <Grid item>
-                              <ListItemText primary={m.value} />
+              {data.deps != null &&
+                data.deps.map(d => (
+                  <React.Fragment>
+                    <Typography
+                      sx={{ mt: 4, mb: 2, ml: 2 }}
+                      variant="h6"
+                      component="div"
+                    >
+                      {d.name}{" "}
+                      <Typography variant={"caption"}>
+                        {" "}
+                        [ {d.type} ]{" "}
+                      </Typography>
+                    </Typography>
+                    <List dense={true}>
+                      {d.meta
+                        ?.filter(dep => dep.key != "name" && dep.key != "type")
+                        .map(m => (
+                          <ListItem>
+                            <Grid container>
+                              <Grid item xs={3}>
+                                <ListItemText primary={m.key} />
+                              </Grid>
+                              <Grid
+                                item
+                                xs={2}
+                                container
+                                justifyContent={"center"}
+                              >
+                                <ListItemText primary=":" />
+                              </Grid>
+                              <Grid item xs={7} container direction={"column"}>
+                                <Grid item>
+                                  <ListItemText primary={m.value} />
+                                </Grid>
+                              </Grid>
                             </Grid>
-                          </Grid>
-                        </Grid>
-                      </ListItem>
-                    ))}
-                  </List>
-                </React.Fragment>
-              ))}
+                          </ListItem>
+                        ))}
+                    </List>
+                  </React.Fragment>
+                ))}
               {data.deps == null && (
                 <List dense={true}>
                   <ListItem className={classes.listItem}>
@@ -332,9 +456,7 @@ export default function TcsDetail(props: TcsDetailProps) {
           </Grid>
         </React.Fragment>
       )}
-      {editTest && (
-        <EditTc tc={data} close={()=> setEditTest(false)}/>
-      )}
+      {editTest && <EditTc tc={data} close={() => setEditTest(false)} />}
     </Grid>
   )
 }

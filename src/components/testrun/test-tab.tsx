@@ -22,6 +22,8 @@ import { defaultTq } from "../../constants"
 export interface TestTabProps {
   tests: TestQuery[]
   editMode: boolean
+  setTestDetail: React.Dispatch<React.SetStateAction<TestQuery>>
+  testDetail: TestQuery
 }
 
 export interface TestRow {
@@ -49,12 +51,12 @@ function renderStatus(params: GridRenderCellParams<TestStatus>) {
   let startIcon = <HourglassEmpty color={"warning"} />
 
   switch (params.value.valueOf()) {
-    case "PASSED" : {
+    case "PASSED": {
       styleClass = "success"
       startIcon = <Check color={"success"} />
       break
     }
-    case "FAILED" : {
+    case "FAILED": {
       styleClass = "error"
       startIcon = <Close color={"error"} />
       break
@@ -62,10 +64,11 @@ function renderStatus(params: GridRenderCellParams<TestStatus>) {
   }
 
   return <Chip sx={{ minWidth: "30%" }} variant="outlined" color={styleClass}
-               avatar={<IconButton>{startIcon}</IconButton>} label={params.value} />
+    avatar={<IconButton>{startIcon}</IconButton>} label={params.value} />
 }
 
 export default function TestTab(props: TestTabProps) {
+  const { testDetail, setTestDetail } = props
   const rows: TestRow[] = getRows(props.tests)
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([])
   const [pageSize, setPageSize] = React.useState<number>(25)
@@ -116,7 +119,6 @@ export default function TestTab(props: TestTabProps) {
       renderCell: renderStatus
     }
   ]
-  const [testDetail, setTestDetail] = React.useState<TestQuery>(defaultTq)
 
   return (
     <Box sx={{
@@ -130,39 +132,39 @@ export default function TestTab(props: TestTabProps) {
         <React.Fragment>
           {!props.editMode && (
             <DataGrid rows={rows} columns={columns}
-                      pageSize={pageSize}
-                      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                      rowsPerPageOptions={[25, 50, 100]}
-                      pagination
-                      autoHeight={true}
-                      isRowSelectable={(params: GridRowParams) => params.row["status"] == TestStatus.FAILED}
-                      onRowClick={(params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
-                        event.defaultMuiPrevented = true
-                        let t = props.tests.filter((item) => item.id == params.id)
-                        setTestDetail(t[0])
-                      }}
-                      components={{ Toolbar: CustomToolbar }} />
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[25, 50, 100]}
+              pagination
+              autoHeight={true}
+              isRowSelectable={(params: GridRowParams) => params.row["status"] == TestStatus.FAILED}
+              onRowClick={(params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
+                event.defaultMuiPrevented = true
+                let t = props.tests.filter((item) => item.id == params.id)
+                setTestDetail(t[0])
+              }}
+              components={{ Toolbar: CustomToolbar }} />
           )}
 
           {props.editMode && (
             <DataGrid rows={rows} columns={columns}
-                      pageSize={pageSize}
-                      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                      rowsPerPageOptions={[25, 50, 100]}
-                      pagination
-                      autoHeight={true}
-                      checkboxSelection={true}
-                      isRowSelectable={(params: GridRowParams) => params.row["status"] == TestStatus.FAILED}
-                      onRowClick={(params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
-                        event.defaultMuiPrevented = true
-                        let t = props.tests.filter((item) => item.id == params.id)
-                        setTestDetail(t[0])
-                      }}
-                      onSelectionModelChange={(newSelectionModel) => {
-                        setSelectionModel(newSelectionModel)
-                      }}
-                      selectionModel={selectionModel}
-                      components={{ Toolbar: CustomToolbar }} />
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[25, 50, 100]}
+              pagination
+              autoHeight={true}
+              checkboxSelection={true}
+              isRowSelectable={(params: GridRowParams) => params.row["status"] == TestStatus.FAILED}
+              onRowClick={(params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
+                event.defaultMuiPrevented = true
+                let t = props.tests.filter((item) => item.id == params.id)
+                setTestDetail(t[0])
+              }}
+              onSelectionModelChange={(newSelectionModel) => {
+                setSelectionModel(newSelectionModel)
+              }}
+              selectionModel={selectionModel}
+              components={{ Toolbar: CustomToolbar }} />
           )}
         </React.Fragment>
       )}

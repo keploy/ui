@@ -16,6 +16,8 @@ import ErrorView from "../global/error"
 export interface TestTabProps {
   app: string
   refetch: () => void
+  tc: string
+  setTc: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface TcRow {
@@ -28,8 +30,9 @@ export interface TcRow {
 }
 
 export default function TestCasesTab(props: TestTabProps) {
+  const{tc,setTc}=props
+
   const [pageSize, setPageSize] = React.useState<number>(25)
-  const [tc, setTc] = React.useState("")
   const [delete_tc, setDeleteTc] = React.useState("")
   const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
     variables: { app: props.app }

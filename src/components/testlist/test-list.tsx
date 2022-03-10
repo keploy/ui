@@ -12,7 +12,8 @@ import { useQuery } from "@apollo/client"
 import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
 import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
-import { Link } from "gatsby";
+import { Link,navigate } from "gatsby";
+import { NumberParam, useQueryParam } from "use-query-params"
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -32,9 +33,12 @@ const useStyles = makeStyles(() => ({
 
 export default function TestList() {
   const classes = useStyles()
-  const [value, setValue] = React.useState(0)
+  const [index=0]=useQueryParam("index",NumberParam)
+  const [value, setValue] = React.useState<number>(index)
   const [tc, setTc] = React.useState("")
   const { loading, error, data, refetch } = useQuery<AppsData>(GET_APPS)
+
+
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />
   if (data == undefined || data?.apps == undefined || data?.apps.length == 0) {
@@ -66,7 +70,7 @@ export default function TestList() {
               aria-label="Vertical tabs endpoints"
               className={classes.tabs}>
               {[...data.apps].map((e, i) => (
-                <CustomTab key={e.id}onClick={()=>setTc("")} label={<React.Fragment>
+                <CustomTab key={e.id}onClick={()=>{setTc("");navigate(`?index=${i}`)}} label={<React.Fragment>
                   <Link to={`${e.id}`}>
                     <Grid container >
                       <Typography className={classes.url}>{e.id}</Typography>

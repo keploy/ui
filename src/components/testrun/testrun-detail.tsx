@@ -45,6 +45,8 @@ export default function TestRunDetail(props: TestRunDetailProps) {
   const {index} = props
   const classes = useStyles()
   const [value=0, setValue] = React.useState(index)
+
+  const [value, setValue] = React.useState(0)
   const [testDetail, setTestDetail] = React.useState<TestQuery>(defaultTq)
   const { loading, error, data } = useQuery<TestRunData>(GET_TEST_RUN_DETAIL, { variables: { id: props.testRunID } })
   if (loading) return (<Loading />)
@@ -79,6 +81,8 @@ export default function TestRunDetail(props: TestRunDetailProps) {
                   key={e} label={<React.Fragment>
                     <Grid container direction={"column"} onClick={() => {setTestDetail(defaultTq);
                     navigate(`?id=${props.testRunID}&index=${i}`)}}>
+
+                    <Grid container direction={"column"} onClick={() => setTestDetail(defaultTq)}>
                       <Grid item container>
                         <Grid item xs={6}> <Typography> {urlData.get(e)![0].req.method}</Typography></Grid>
                         <Grid item xs={6} container justifyContent={"flex-end"}>

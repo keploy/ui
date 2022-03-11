@@ -79,8 +79,6 @@ export default function TestRunDetail(props: TestRunDetailProps) {
                   key={e} label={<React.Fragment>
                     <Grid container direction={"column"} onClick={() => {setTestDetail(defaultTq);
                     navigate(`?id=${props.testRunID}&index=${i}`)}}>
-
-                    <Grid container direction={"column"} onClick={() => setTestDetail(defaultTq)}>
                       <Grid item container>
                         <Grid item xs={6}> <Typography> {urlData.get(e)![0].req.method}</Typography></Grid>
                         <Grid item xs={6} container justifyContent={"flex-end"}>

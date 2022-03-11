@@ -45,8 +45,6 @@ export default function TestRunDetail(props: TestRunDetailProps) {
   const {index} = props
   const classes = useStyles()
   const [value=0, setValue] = React.useState(index)
-
-  const [value, setValue] = React.useState(0)
   const [testDetail, setTestDetail] = React.useState<TestQuery>(defaultTq)
   const { loading, error, data } = useQuery<TestRunData>(GET_TEST_RUN_DETAIL, { variables: { id: props.testRunID } })
   if (loading) return (<Loading />)

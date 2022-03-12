@@ -80,10 +80,8 @@ We'd love to collaborate with you to make Keploy great. To get started feel free
 ## 📌 Our valuable Contributors👩‍💻👨‍💻 :
 <table>
   <tr>
-    <td>
-      <a href="https://github.com/keploy/ui/graphs/contributors">
-        <img src="https://contrib.rocks/image?repo=keploy/ui" />
-      </a>
-     </td>
+    <a href="https://github.com/keploy/ui/graphs/contributors">
+      <img src="https://contrib.rocks/image?repo=keploy/ui" />
+    </a>
   </tr>
 </table>

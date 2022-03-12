@@ -1,8 +1,18 @@
+# Welcome to Keploy UI 👋
+
+<p style="text-align:center;" align="center">
+  <img align="center" src="https://github.com/keploy/ui/blob/main/src/images/logo.png" width="30%" />
+</p>
+
+[![Slack](https://img.shields.io/badge/slack-@keyploy--slack-yellow.svg)](https://join.slack.com/t/keploy/shared_invite/zt-12rfbvc01-o54cOG0X1G6eVJTuI_orSA)
+[![Github](https://img.shields.io/badge/github-@keyploy--github-9cf.svg)](https://github.com/keploy)
+[![LinkedIN](https://img.shields.io/badge/linkedin-@keyploy--LinkedIn-lightgray.svg)](https://www.linkedin.com/company/keploy/)
+[![YouTube](https://img.shields.io/badge/youtube-@keyploy--youtube-red.svg)](https://www.youtube.com/channel/UC6OTg7F4o0WkmNtSoob34lg)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen?logo=github)](CODE_OF_CONDUCT.md)
-[![Slack](.github/slack.svg)](https://join.slack.com/t/keploy/shared_invite/zt-12rfbvc01-o54cOG0X1G6eVJTuI_orSA)
 [![License](.github/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-# Keploy
+
+# About Us
 Keploy is a no-code API testing platform.
 
 Keploy automatically generates unit test cases with dependency mocks from API calls

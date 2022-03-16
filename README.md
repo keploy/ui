@@ -1,7 +1,7 @@
 # Welcome to Keploy UI 👋
 
 <p style="text-align:center;" align="center">
-  <img align="center" src="https://github.com/keploy/ui/blob/main/src/images/logo.png" width="30%" />
+  <img align="center" src="https://avatars.githubusercontent.com/u/92252339?s=200&v=4" width="30%" />
 </p>
 
 [![Slack](https://img.shields.io/badge/slack-@keyploy--slack-yellow.svg)](https://join.slack.com/t/keploy/shared_invite/zt-12rfbvc01-o54cOG0X1G6eVJTuI_orSA)
@@ -21,7 +21,7 @@ Developers can use keploy alongside their favorite unit testing framework to sav
 
 ## How it works?
 
-![How it works](https://raw.githubusercontent.com/keploy/docs/master/static/img/how-it-works.png)
+![How it works](https://raw.githubusercontent.com/keploy/docs/main/static/img/how-it-works.png)
 
 **Note:** You can generate test cases from **any environment** which has all the infrastructure dependencies setup. Please consider using this to generate tests from low-traffic environments first. The deduplication feature necessary for high-traffic environments is currently experimental.
 

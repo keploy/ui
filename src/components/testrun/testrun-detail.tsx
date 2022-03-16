@@ -12,13 +12,12 @@ import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
 import { useQuery } from "@apollo/client"
 import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
-import { defaultTq } from "../../constants"
-import { TestQuery } from "../../services/queries"
 import {navigate} from "gatsby"
 
 export interface TestRunDetailProps {
   testRunID: string
-  index:number | null | undefined
+  index:number | null
+  tdId:string | null | undefined
 }
 
 const useStyles = makeStyles(() => ({
@@ -42,10 +41,12 @@ const useStyles = makeStyles(() => ({
 }))
 
 export default function TestRunDetail(props: TestRunDetailProps) {
-  const {index} = props
+  const {index,tdId} = props
+
   const classes = useStyles()
   const [value=0, setValue] = React.useState(index)
-  const [testDetail, setTestDetail] = React.useState<TestQuery>(defaultTq)
+
+
   const { loading, error, data } = useQuery<TestRunData>(GET_TEST_RUN_DETAIL, { variables: { id: props.testRunID } })
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />
@@ -53,8 +54,8 @@ export default function TestRunDetail(props: TestRunDetailProps) {
     return (<Empty doc={"https://github.com/keploy/keploy"} message={"Please wait while we run test cases for you! "} image={EmptyImg} />)
   }
   let urlData = getTestForURL(data.testRun[0].tests)
-  const handleChange = (_: React.ChangeEvent<{}>, newValue: number) => {
 
+  const handleChange = (_: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
   }
 
@@ -77,7 +78,7 @@ export default function TestRunDetail(props: TestRunDetailProps) {
               {[...urlData.keys()].map((e, i) => (
                 <CustomTab
                   key={e} label={<React.Fragment>
-                    <Grid container direction={"column"} onClick={() => {setTestDetail(defaultTq);
+                    <Grid container direction={"column"} onClick={() => {
                     navigate(`?id=${props.testRunID}&index=${i}`)}}>
                       <Grid item container>
                         <Grid item xs={6}> <Typography> {urlData.get(e)![0].req.method}</Typography></Grid>
@@ -127,7 +128,7 @@ export default function TestRunDetail(props: TestRunDetailProps) {
           </Card>
           {[...urlData.keys()].map((k, i) => (
             <TabPanelBox key={k} value={value} index={i}>
-              <TestTab tests={urlData.get(k)!} editMode={false} setTestDetail={setTestDetail} testDetail={testDetail} />
+              <TestTab tests={urlData.get(k)!} editMode={false} tdId={tdId} testRunID={props.testRunID} index={index} data={data}/>
             </TabPanelBox>
           ))}
         </Grid>

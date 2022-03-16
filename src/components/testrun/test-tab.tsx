@@ -17,13 +17,17 @@ import { Box, Chip, IconButton } from "@mui/material"
 import { Check, Close, HourglassEmpty } from "@mui/icons-material"
 import { Color } from "@material-ui/lab"
 import CompareView from "./compare"
+import {TestRunData } from "../../services/queries"
 import { defaultTq } from "../../constants"
+import {navigate} from "gatsby";
 
 export interface TestTabProps {
   tests: TestQuery[]
   editMode: boolean
-  setTestDetail: React.Dispatch<React.SetStateAction<TestQuery>>
-  testDetail: TestQuery
+  tdId:string | null | undefined
+  testRunID:string
+  index:number | null
+  data: TestRunData
 }
 
 export interface TestRow {
@@ -68,10 +72,19 @@ function renderStatus(params: GridRenderCellParams<TestStatus>) {
 }
 
 export default function TestTab(props: TestTabProps) {
-  const { testDetail, setTestDetail } = props
+  const {tdId,testRunID,index,data } = props
+
+  let testCaseData = data.testRun[0].tests!.filter((value) => value.id == tdId)
+  let filteredData=defaultTq;
+
+  if(testCaseData.length>0){
+    filteredData = testCaseData[0]
+  }
+  const [tcData,setTcData]=React.useState<TestQuery>(filteredData)
   const rows: TestRow[] = getRows(props.tests)
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([])
   const [pageSize, setPageSize] = React.useState<number>(25)
+
   const columns: GridColDef[] = [
     {
       field: "time",
@@ -128,7 +141,7 @@ export default function TestTab(props: TestTabProps) {
         color: "#ffffff"
       }
     }}>
-      {testDetail.id == "" && (
+      {tdId == "" && (
         <React.Fragment>
           {!props.editMode && (
             <DataGrid rows={rows} columns={columns}
@@ -141,7 +154,8 @@ export default function TestTab(props: TestTabProps) {
               onRowClick={(params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
                 event.defaultMuiPrevented = true
                 let t = props.tests.filter((item) => item.id == params.id)
-                setTestDetail(t[0])
+                setTcData(t[0])
+                navigate("?id="+testRunID+"&index="+index+"&tdId="+t[0].id)
               }}
               components={{ Toolbar: CustomToolbar }} />
           )}
@@ -158,7 +172,7 @@ export default function TestTab(props: TestTabProps) {
               onRowClick={(params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
                 event.defaultMuiPrevented = true
                 let t = props.tests.filter((item) => item.id == params.id)
-                setTestDetail(t[0])
+                setTcData(t[0])
               }}
               onSelectionModelChange={(newSelectionModel) => {
                 setSelectionModel(newSelectionModel)
@@ -168,9 +182,10 @@ export default function TestTab(props: TestTabProps) {
           )}
         </React.Fragment>
       )}
-      {testDetail.id != "" && (
-        <CompareView test={testDetail} close={() => {
-          setTestDetail(defaultTq)
+      {tdId != "" && (
+        <CompareView test={tcData} close={() => {
+          setTcData(defaultTq)
+          navigate("?id="+testRunID+"&index="+index)
         }} />
       )}
     </Box>

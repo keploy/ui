@@ -46,7 +46,6 @@ export default function TestRunDetail(props: TestRunDetailProps) {
   const classes = useStyles()
   const [value=0, setValue] = React.useState(index)
 
-
   const { loading, error, data } = useQuery<TestRunData>(GET_TEST_RUN_DETAIL, { variables: { id: props.testRunID } })
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />
@@ -129,6 +128,7 @@ export default function TestRunDetail(props: TestRunDetailProps) {
           {[...urlData.keys()].map((k, i) => (
             <TabPanelBox key={k} value={value} index={i}>
               <TestTab tests={urlData.get(k)!} editMode={false} tdId={tdId} testRunID={props.testRunID} index={index} data={data}/>
+
             </TabPanelBox>
           ))}
         </Grid>

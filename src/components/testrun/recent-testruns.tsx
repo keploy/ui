@@ -80,7 +80,6 @@ export default function RecentTestRuns() {
   if (data == undefined || data?.testRun == undefined || data?.testRun.length == 0) {
     return (<Empty doc={"https://github.com/keploy/keploy"} message={"Please perform some Test Runs! "} image={EmptyImg}/>)
   }
-
   return (
     <React.Fragment>
       <SEO title="Recent Test Runs" />

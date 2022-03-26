@@ -12,10 +12,14 @@ import Empty from "../global/empty"
 import EmptyImg from "../../../static/empty2.png"
 import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
+import {navigate} from "gatsby";
 
 export interface TestTabProps {
   app: string
   refetch: () => void
+  tc: string
+  setTc: React.Dispatch<React.SetStateAction<string>>
+  index:number
 }
 
 export interface TcRow {
@@ -28,8 +32,8 @@ export interface TcRow {
 }
 
 export default function TestCasesTab(props: TestTabProps) {
+  const{tc,setTc,index}=props
   const [pageSize, setPageSize] = React.useState<number>(25)
-  const [tc, setTc] = React.useState("")
   const [delete_tc, setDeleteTc] = React.useState("")
   const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
     variables: { app: props.app }
@@ -159,6 +163,7 @@ export default function TestCasesTab(props: TestTabProps) {
                       event.defaultMuiPrevented = true
                       let t = data.testCase.filter((item) => item.id == params.id)
                       setTc(t[0].id)
+                      navigate("?index="+index+"&tcId="+t[0].id)
                     } else {
                       setDeleteTc(params.row['id'])
                     }
@@ -168,6 +173,7 @@ export default function TestCasesTab(props: TestTabProps) {
       {tc != "" && (
         <TcsDetail tc={tc} close={() => {
           setTc("")
+          navigate("/testlist?index="+index)
         }} />
       )}
     </Box>

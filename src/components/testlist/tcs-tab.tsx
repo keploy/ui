@@ -173,6 +173,7 @@ export default function TestCasesTab(props: TestTabProps) {
       {tc != "" && (
         <TcsDetail tc={tc} close={() => {
           setTc("")
+          navigate("/testlist?index="+index)
         }} />
       )}
     </Box>

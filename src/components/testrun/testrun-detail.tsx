@@ -128,7 +128,6 @@ export default function TestRunDetail(props: TestRunDetailProps) {
           {[...urlData.keys()].map((k, i) => (
             <TabPanelBox key={k} value={value} index={i}>
               <TestTab tests={urlData.get(k)!} editMode={false} tdId={tdId} testRunID={props.testRunID} index={index} data={data}/>
-
             </TabPanelBox>
           ))}
         </Grid>

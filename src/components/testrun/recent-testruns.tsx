@@ -100,7 +100,6 @@ export default function RecentTestRuns() {
     return (<Empty doc={"https://github.com/keploy/keploy"} message={"Please perform some Test Runs! "} image={EmptyImg}/>)
   }
 
-
   const columns:GridColDef[] = [
     { field: "id", headerName: "App ID", minWidth:350,flex:1,headerClassName: 'super-app-theme--header',align: "center",headerAlign:"center"
     },

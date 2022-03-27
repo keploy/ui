@@ -41,6 +41,7 @@ const useStyles = makeStyles(() => ({
 
 export default function TestRunDetail(props: TestRunDetailProps) {
   const {index,tdId} = props
+
   const classes = useStyles()
   const [value=0, setValue] = React.useState(index)
   const { loading, error, data } = useQuery<TestRunData>(GET_TEST_RUN_DETAIL, { variables: { id: props.testRunID } })

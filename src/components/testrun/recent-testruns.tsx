@@ -18,8 +18,7 @@ import {
   GridColDef
 } from '@mui/x-data-grid';
 import { navigate } from "gatsby"
-import { convertTime } from "../../services/services"
-import { bgImg } from "../../services/services"
+import { convertTime, bgImg } from "../../services/services"
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import { makeStyles } from "@mui/styles"
 
@@ -93,7 +92,6 @@ export default function RecentTestRuns() {
       }
   );
 
-  console.log(data)
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />
   if (data == undefined || data?.testRun == undefined || data?.testRun.length == 0) {
@@ -101,7 +99,7 @@ export default function RecentTestRuns() {
   }
 
   const columns:GridColDef[] = [
-    { field: "id", headerName: "App ID", minWidth:350,flex:1,headerClassName: 'super-app-theme--header',align: "center",headerAlign:"center"
+    { field: "id", headerName: "Testrun ID", minWidth:350,flex:1,headerClassName: 'super-app-theme--header',align: "center",headerAlign:"center"
     },
     { field: "app", headerName: "App Name", minWidth:200,flex:1,headerClassName: 'super-app-theme--header',align: "center",headerAlign:"center"
     },
@@ -253,11 +251,10 @@ export default function RecentTestRuns() {
                     onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                     pageSize={pageSize}
                     rowsPerPageOptions={[5, 10, 100]}
-                    onRowClick={(params)=>{
+                    onRowClick={(params) => {
                       navigate(`detail/?id=${params.row.id}`)
                     }}
-                    components={{ Toolbar: CustomToolbar
-                    }}
+                    components={{ Toolbar: CustomToolbar}}
                 />
               </Box>
             </Grid>
@@ -267,4 +264,3 @@ export default function RecentTestRuns() {
     </React.Fragment>
   )
 }
-

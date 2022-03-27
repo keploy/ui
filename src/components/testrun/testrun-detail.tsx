@@ -13,7 +13,6 @@ import ErrorView from "../global/error"
 import { useQuery } from "@apollo/client"
 import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
 import {navigate} from "gatsby"
-
 export interface TestRunDetailProps {
   testRunID: string
   index:number | null
@@ -42,10 +41,8 @@ const useStyles = makeStyles(() => ({
 
 export default function TestRunDetail(props: TestRunDetailProps) {
   const {index,tdId} = props
-
   const classes = useStyles()
   const [value=0, setValue] = React.useState(index)
-
   const { loading, error, data } = useQuery<TestRunData>(GET_TEST_RUN_DETAIL, { variables: { id: props.testRunID } })
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />

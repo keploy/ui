@@ -23,7 +23,7 @@ firstPRMergeComment: |
 # *Required* Comment to reply with
 requestInfoReplyComment: >
   Hi,
-  Thanks for raising an issue/pull request! We at Open-Horizon appreciate your concerns and views to
+  Thanks for raising an issue/pull request! We at Keploy-UI appreciate your concerns and views to
   help us improve. 
 # *OPTIONAL* default titles to check against for lack of descriptiveness
 # MUST BE ALL LOWERCASE

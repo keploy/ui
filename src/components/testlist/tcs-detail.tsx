@@ -18,7 +18,7 @@ import { EmptyImg } from "../../../static/empty.png"
 
 export interface TcsDetailProps {
   close?: () => void
-  tc: string
+  tc: string | null
 }
 
 const useStyles = makeStyles(() => ({

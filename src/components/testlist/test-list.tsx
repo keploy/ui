@@ -14,6 +14,7 @@ import ErrorView from "../global/error"
 import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
 import { Link,navigate } from "gatsby";
 import {NumberParam, StringParam, useQueryParam} from "use-query-params"
+import { POLLING_INTERVAL } from "../../constants";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -35,10 +36,12 @@ export default function TestList() {
   const classes = useStyles()
   const [index=0]=useQueryParam("index",NumberParam)
   const [tcId=""]=useQueryParam("tcId",StringParam)
-  const [value, setValue] = React.useState<number>(index)
+  const [value, setValue] = React.useState<number>(index? index : 0)
   const [tc, setTc] = React.useState(tcId)
 
-  const { loading, error, data, refetch } = useQuery<AppsData>(GET_APPS)
+  const { loading, error, data, refetch } = useQuery<AppsData>(GET_APPS, {
+    pollInterval: POLLING_INTERVAL,
+  })
 
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />

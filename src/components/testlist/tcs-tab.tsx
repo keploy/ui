@@ -13,6 +13,7 @@ import EmptyImg from "../../../static/empty2.png"
 import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
 import {navigate} from "gatsby";
+import { POLLING_INTERVAL } from "../../constants";
 
 export interface TestTabProps {
   app: string
@@ -36,7 +37,8 @@ export default function TestCasesTab(props: TestTabProps) {
   const [pageSize, setPageSize] = React.useState<number>(25)
   const [delete_tc, setDeleteTc] = React.useState("")
   const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
-    variables: { app: props.app }
+    variables: { app: props.app },
+    pollInterval: POLLING_INTERVAL,
   })
 
   const [deleteTc] = useMutation<{ deleteTestCase: boolean }, { id: string }>(DELETE_TC, {

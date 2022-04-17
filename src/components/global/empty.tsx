@@ -43,7 +43,7 @@ export default function Empty (props : EmptyProps){
           <IconButton  href={props.doc} color="secondary" aria-label="delete" size="large">
             <Article/>
           </IconButton>
-          <Link href={props.doc} underline="hover">
+          <Link href={props.doc} target="_blank" underline="hover">
             {'For help, please visit documentation'}
           </Link>
         </Grid>

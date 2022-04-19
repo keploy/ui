@@ -52,7 +52,7 @@ export GATSBY_API_URL=http://localhost:8081/api
 Now let's start the Gatsby Server 
 
 ```shell
-gatsby develop
+npm run develop
 ```
 
 If you make some UI/design changes and want to add test data. In the new directory, clone test data repo : 

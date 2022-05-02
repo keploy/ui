@@ -59,7 +59,7 @@ export default function EditTc(props: EditTcProps) {
   const [alert, setAlert] = React.useState<AlertProps["severity"]>(undefined)
 
   if (props.tc == null) {
-    return <Empty message={"Uh! Oh! Something went wrong. Please file an issue on keploy/keploy repo on Github!"} doc={"https://docs.keploy.io"} image={EmptyImg}/>
+    return <Empty message={"Uh! Oh! Something went wrong. Please file an issue on keploy/keploy repo on Github!"} doc={"https://docs.keploy.io"} image={EmptyImg} />
   }
 
   const [updateTc] = useMutation<{ updateTestCase: boolean }, { tc: TestCase[] }>(EDIT_TESTCASE, {
@@ -75,7 +75,7 @@ export default function EditTc(props: EditTcProps) {
   }
 
   return (
-    <Grid sx={{minHeight: '80vh'}} >
+    <Grid sx={{ minHeight: '80vh' }} >
       <Grid container>
         <Grid item xs={6}>
           <AntTabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -87,12 +87,12 @@ export default function EditTc(props: EditTcProps) {
 
           <Tooltip title={"Save Test Case"}>
             <Save
-              onClick={() =>  {
+              onClick={() => {
                 updateTc().then((d) => {
                   if (d.data != null) {
                     if (d.data.updateTestCase) {
                       setAlert("success")
-                      props.close? props.close() : navigate("/testlist")
+                      props.close ? props.close() : navigate("/testlist")
                     } else {
                       setAlert("error")
                     }
@@ -116,7 +116,7 @@ export default function EditTc(props: EditTcProps) {
 
           <Tooltip title={"Cancel"}>
             <Close sx={{ margin: 2 }} onClick={() => {
-              props.close? props.close() : navigate("/testlist")
+              props.close ? props.close() : navigate("/testlist")
             }} />
           </Tooltip>
         </Grid>
@@ -126,23 +126,24 @@ export default function EditTc(props: EditTcProps) {
           <AntTabs value={valueRes} onChange={handleChangeRes} aria-label="basic tabs example">
             <AntTab label="Body" {...a11yProps(0)} />
             <AntTab label="Header" {...a11yProps(1)} />
+            <AntTab label="Parameters" {...a11yProps(2)} />
           </AntTabs>
           <Grid container direction={"row"}>
             <TabPanel value={valueRes} index={0}>
-              { newTc.httpResp != null && newTc.httpResp.body != null && (
-                <Grid item container sx={{marginBottom: 10}}>
+              {newTc.httpResp != null && newTc.httpResp.body != null && (
+                <Grid item container sx={{ marginBottom: 10 }}>
                   {isJSON(newTc.httpResp.body) != "object" && (
                     <TextField
                       multiline
                       rows={4}
                       fullWidth={true}
-                      sx={{margin : 2}}
+                      sx={{ margin: 2 }}
                       value={newTc.httpResp!.body}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>)=> {
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         let tmp = deepCopyTc(newTc)
                         tmp.httpResp!.body = event.target.value
                         setNewTc(tmp)
-                      }} id="standard-basic" label="Enter Plain Text Body"/>
+                      }} id="standard-basic" label="Enter Plain Text Body" />
                   )}
                   {isJSON(newTc.httpResp.body) == "object" && (
                     <ReactJson
@@ -168,14 +169,14 @@ export default function EditTc(props: EditTcProps) {
                   )}
                 </Grid>
               )}
-              { newTc.httpResp?.body == null && (
+              {newTc.httpResp?.body == null && (
                 <TextField
-                  sx={{margin : 2}}
+                  sx={{ margin: 2 }}
                   multiline
                   rows={4}
                   fullWidth={true}
                   value={newTc.httpResp?.body}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>)=> {
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     let tmp = deepCopyTc(newTc)
                     tmp.httpResp!.body = event.target.value
                     setNewTc(tmp)
@@ -185,7 +186,7 @@ export default function EditTc(props: EditTcProps) {
           </Grid>
           <Grid container direction={"row"}>
             <TabPanel value={valueRes} index={1}>
-              <Grid item container  sx={{marginBottom: 10}}>
+              <Grid item container sx={{ marginBottom: 10 }}>
                 {newTc.httpResp != null && newTc.httpResp?.header != null && [...newTc.httpResp.header].map((h, index) => (
                   <Grid container>
                     <Grid item xs sx={{ padding: 1 }}>
@@ -202,30 +203,30 @@ export default function EditTc(props: EditTcProps) {
                               {([...h.value].map((eh, i) => (
                                 <Grid item>
                                   <TextField
-                                    sx={{ width : '80%'}}
+                                    sx={{ width: '80%' }}
                                     multiline
                                     rows={2}
                                     value={eh}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>)=> {
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                       let tmp = deepCopyTc(newTc)
-                                      tmp.httpResp.header[index].value[i] =  event.target.value
+                                      tmp.httpResp.header[index].value[i] = event.target.value
                                       setNewTc(tmp)
                                     }} id="standard-basic" label="Enter Header Value" />
-                                  <IconButton  sx={{
+                                  <IconButton sx={{
                                     color: "error.main",
                                     ":hover": {
                                       color: "primary.main"
                                     }
                                   }} aria-label="delete" size="small"
-                                               onClick={()=> {
-                                                 let tmp = deepCopyTc(newTc)
-                                                 if (tmp.httpResp.header[index].value.length  < 2) {
-                                                   tmp.httpResp.header.splice(index, 1)
-                                                 } else {
-                                                   tmp.httpResp.header[index].value.splice(i, 1)
-                                                 }
-                                                 setNewTc(tmp)
-                                               }}><DeleteIcon fontSize="inherit" />
+                                    onClick={() => {
+                                      let tmp = deepCopyTc(newTc)
+                                      if (tmp.httpResp.header[index].value.length < 2) {
+                                        tmp.httpResp.header.splice(index, 1)
+                                      } else {
+                                        tmp.httpResp.header[index].value.splice(i, 1)
+                                      }
+                                      setNewTc(tmp)
+                                    }}><DeleteIcon fontSize="inherit" />
                                   </IconButton>
                                 </Grid>
                               )))}
@@ -240,7 +241,33 @@ export default function EditTc(props: EditTcProps) {
                   <List dense={true}>
                     <ListItem className={classes.listItem}>
                       <ListItemText primary={"Empty"} secondary={"Headers can't be added " +
-                      "in Edit mode. Please re-record the API call to add headers."} />
+                        "in Edit mode. Please re-record the API call to add headers."} />
+                    </ListItem>
+                  </List>
+                )}
+              </Grid>
+            </TabPanel>
+          </Grid>
+          <Grid container>
+            <TabPanel value={valueRes} index={2}>
+              <Grid item container>
+                {newTc.httpResp?.statusCode != null && newTc.httpResp?.statusCode != null && (
+                  <TextField
+                    sx={{ margin: 2 }}
+                    rows={4}
+                    fullWidth={true}
+                    value={newTc.httpResp?.statusCode}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                      let tmp = deepCopyTc(newTc)
+                      tmp.httpResp!.statusCode = parseInt(event.target.value)
+                      setNewTc(tmp)
+                    }} id="standard-basic" label="Enter Plain Text Body" />
+                )}
+                {newTc.httpResp?.statusCode == null && (
+                  <List dense={true}>
+                    <ListItem className={classes.listItem}>
+                      <ListItemText primary={"Empty"} secondary={"Parameters can't be added " +
+                        "in Edit mode. Please re-record the API call to add parameters."} />
                     </ListItem>
                   </List>
                 )}
@@ -257,16 +284,16 @@ export default function EditTc(props: EditTcProps) {
           </AntTabs>
           <Grid container direction={"row"}>
             <TabPanel value={valueRes} index={0}>
-              { newTc.httpReq != null && newTc.httpReq?.body != null && (
-                <Grid item container  sx={{marginBottom: 10}}>
+              {newTc.httpReq != null && newTc.httpReq?.body != null && (
+                <Grid item container sx={{ marginBottom: 10 }}>
                   {isJSON(newTc.httpReq.body) != "object" && (
                     <TextField
-                      sx={{margin : 2}}
+                      sx={{ margin: 2 }}
                       multiline
                       rows={4}
                       fullWidth={true}
                       value={newTc.httpReq!.body}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>)=> {
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         let tmp = deepCopyTc(newTc)
                         tmp.httpReq!.body = event.target.value
                         setNewTc(tmp)
@@ -300,8 +327,8 @@ export default function EditTc(props: EditTcProps) {
           </Grid>
           <Grid container direction={"row"}>
             <TabPanel value={valueRes} index={1}>
-              { newTc.httpReq != null && (
-                <Grid item container direction={"column"}  sx={{marginBottom: 10}}>
+              {newTc.httpReq != null && (
+                <Grid item container direction={"column"} sx={{ marginBottom: 10 }}>
                   <Grid item sx={{ padding: 3 }}>
                     <Typography color={"text.secondary"} variant={"subtitle1"}>Info</Typography>
                   </Grid>
@@ -372,30 +399,30 @@ export default function EditTc(props: EditTcProps) {
                               {([...h.value].map((eh, i) => (
                                 <Grid item>
                                   <TextField
-                                    sx={{ width : '80%'}}
+                                    sx={{ width: '80%' }}
                                     multiline
                                     rows={2}
                                     value={eh}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>)=> {
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                       let tmp = deepCopyTc(newTc)
-                                      tmp.httpReq.header[index].value[i] =  event.target.value
+                                      tmp.httpReq.header[index].value[i] = event.target.value
                                       setNewTc(tmp)
                                     }} id="standard-basic" label="Enter Header Value" />
-                                  <IconButton  sx={{
+                                  <IconButton sx={{
                                     color: "error.main",
                                     ":hover": {
                                       color: "primary.main"
                                     }
                                   }} aria-label="delete" size="small"
-                                               onClick={()=> {
-                                                 let tmp = deepCopyTc(newTc)
-                                                 if (tmp.httpReq.header[index].value.length  < 2) {
-                                                   tmp.httpReq.header.splice(index, 1)
-                                                 } else {
-                                                   tmp.httpReq.header[index].value.splice(i, 1)
-                                                 }
-                                                 setNewTc(tmp)
-                                               }}><DeleteIcon fontSize="inherit" />
+                                    onClick={() => {
+                                      let tmp = deepCopyTc(newTc)
+                                      if (tmp.httpReq.header[index].value.length < 2) {
+                                        tmp.httpReq.header.splice(index, 1)
+                                      } else {
+                                        tmp.httpReq.header[index].value.splice(i, 1)
+                                      }
+                                      setNewTc(tmp)
+                                    }}><DeleteIcon fontSize="inherit" />
                                   </IconButton>
                                 </Grid>
                               )))}
@@ -407,7 +434,7 @@ export default function EditTc(props: EditTcProps) {
                         <List dense={true}>
                           <ListItem className={classes.listItem}>
                             <ListItemText primary={"Empty"} secondary={"Headers can't be added " +
-                            "in Edit mode. Please re-record the API call to add headers."} />
+                              "in Edit mode. Please re-record the API call to add headers."} />
                           </ListItem>
                         </List>
                       )}
@@ -420,7 +447,7 @@ export default function EditTc(props: EditTcProps) {
         </TabPanel>
       </Grid>
       {alert != undefined && (
-        <CustomAlert msg={alert=="success"? "Test Case Updated!" : "Failed to Update!"} open={true} severity={alert}/>
+        <CustomAlert msg={alert == "success" ? "Test Case Updated!" : "Failed to Update!"} open={true} severity={alert} />
       )}
     </Grid>
   )

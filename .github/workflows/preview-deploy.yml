@@ -33,14 +33,14 @@ jobs:
       - name: Upload on Surge
         id: deploy
         run: |
-          export DEPLOY_DOMAIN=https://keploy-ui-preview-pr-${{ steps.pr.outputs.id }}.surge.sh
+          export DEPLOY_DOMAIN=https://keploy.io-preview-pr-${{ steps.pr.outputs.id }}.surge.sh
           npm surge --project ./ --domain $DEPLOY_DOMAIN --token ${{ secrets.SURGE_TOKEN }}
       - name: Update status Comment
         uses: actions-cool/maintain-one-comment@v1.1.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            🎊 PR Preview has been successfully built and deployed to https://keploy-ui-preview-pr-${{ steps.pr.outputs.id }}.surge.sh 🎊
+            🎊 PR Preview has been successfully built and deployed to https://keploy.io-preview-pr-${{ steps.pr.outputs.id }}.surge.sh 🎊
             <!-- Sticky Pull Request Comment -->
           body-include: '<!-- Sticky Pull Request Comment -->'
           number: ${{ steps.pr.outputs.id }}
@@ -50,7 +50,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@9.3.0
         with:
           urls: |
-            https://keploy-ui-preview-pr-${{ steps.pr.outputs.id }}.surge.sh
+            https://keploy.io-preview-pr-${{ steps.pr.outputs.id }}.surge.sh
           configPath: ./.github/workflows/lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true

@@ -35,9 +35,10 @@ export interface TcRow {
 export default function TestCasesTab(props: TestTabProps) {
   const{tc,setTc,index}=props
   const [pageSize, setPageSize] = React.useState<number>(25)
+  const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [delete_tc, setDeleteTc] = React.useState("")
   const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
-    variables: { app: props.app },
+    variables: { app: props.app, offset: pageIndex, limit: pageSize },
     pollInterval: POLLING_INTERVAL,
   })
 
@@ -159,6 +160,11 @@ export default function TestCasesTab(props: TestTabProps) {
                   onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                   rowsPerPageOptions={[25, 50, 100]}
                   pagination
+                  paginationMode={"server"}
+                  rowCount={data.lengthOfTestCases.count}
+                  onPageChange={(pageNumber, details) => {
+                    setPageIndex(pageNumber)
+                  }}
                   autoHeight={true}
                   onCellClick={(params: GridCellParams, event: MuiEvent<React.MouseEvent>) => {
                     if (params.field != "methods"){

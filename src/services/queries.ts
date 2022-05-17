@@ -181,8 +181,11 @@ query getTc ($id : String!) {
 `
 
 export const GET_APP_TC_META = gql`
-query getTc ($app : String!) {
-  testCase(app: $app) {
+query getTc ($app : String!, $offset : Int!, $limit: Int!) {
+  lengthOfTestCases(app: $app) {
+    count
+  }
+  testCase(app: $app, offset: $offset, limit: $limit) {
           id
           created
           updated
@@ -266,6 +269,9 @@ export interface AppTCs {
 
 export interface AppTCsMeta {
   testCase: TestCase[]
+  lengthOfTestCases: {
+    count: number
+  }
 }
 
 export interface TestRunData {

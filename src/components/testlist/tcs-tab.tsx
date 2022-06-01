@@ -51,7 +51,7 @@ export default function TestCasesTab(props: TestTabProps) {
   if (error) return <ErrorView msg={error.message} />
 
   if (data == undefined || data.testCase == undefined || data.testCase.length == 0) {
-    return (<Empty doc={"https://github.com/keploy/keploy"} message={"No Test Cases Recorded Yet! "} image={EmptyImg}/>)
+    return (<Empty doc={"https://docs.keploy.io/"} message={"No Test Cases Recorded Yet! "} image={EmptyImg}/>)
   }
 
   const renderOperations = (params: GridRenderCellParams<string>) => {

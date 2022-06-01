@@ -46,7 +46,7 @@ export default function TestList() {
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />
   if (data == undefined || data?.apps == undefined || data?.apps.length == 0) {
-    return (<Empty doc={"https://github.com/keploy/keploy"} message={"Please add some apps by integrating SDK and running application in Capture mode! "} image={EmptyImg} />)
+    return (<Empty doc={"https://docs.keploy.io/"} message={"Please add some apps by integrating SDK and running application in Capture mode! "} image={EmptyImg} />)
   }
 
   const handleChange = (_: React.ChangeEvent<{}>, newValue: number) => {

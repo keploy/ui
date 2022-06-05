@@ -46,9 +46,9 @@ export default function CompareView(props: CompareViewProps) {
   const [alert, setAlert] = React.useState<AlertProps["severity"]>(undefined)
   const { data } = useQuery<TestcaseData>(GET_TC_META,{ variables:{id: props.test.testCaseID} })
 
-  const [normaliseTc] = useMutation<{ normalizeTest: boolean }, { id: string }>(NORMALISE_TC, {
+  const [normaliseTc] = useMutation<{ normalizeTests: boolean }, { ids: string[] }>(NORMALISE_TC, {
     variables: {
-      id: props.test.id
+      ids: props.test.id.split(" "),
     }
   })
 
@@ -56,7 +56,7 @@ export default function CompareView(props: CompareViewProps) {
     normaliseTc()
       .then((d) => {
         if (d.data != null) {
-          if (d.data.normalizeTest) {
+          if (d.data.normalizeTests) {
             setAlert("success")
           } else {
             setAlert("error")

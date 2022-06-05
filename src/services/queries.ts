@@ -251,8 +251,8 @@ query getTc ($app : String!) {
 `
 
 export const NORMALISE_TC = gql`
-  mutation normalizeTest( $id: String!) {
-    normalizeTest(id: $id) 
+  mutation normalizeTests( $ids: [String!]!) {
+    normalizeTests(ids: $ids) 
   }
 `
 

@@ -52,6 +52,7 @@ query getRecentTestRuns($id : String) {
         req {
             protoMajor
             protoMinor
+            url
             urlParam {
                 key
                 value
@@ -133,6 +134,7 @@ query getTc ($id : String!) {
           httpReq {
               protoMajor
               protoMinor
+              url
               urlParam {
                   key
                   value
@@ -192,6 +194,7 @@ query getTc ($app : String!) {
               protoMajor
               protoMinor
               method
+              url
             }
             httpResp {
                     statusCode
@@ -217,6 +220,7 @@ query getTc ($app : String!) {
           httpReq {
               protoMajor
               protoMinor
+              url
               urlParam {
                   key
                   value
@@ -379,6 +383,7 @@ export interface HttpReq {
   protoMajor?: number
   protoMinor?: number
   urlParam?: KV[]
+  url?: string
   header?: Header[]
   method?: Method
   body?: string

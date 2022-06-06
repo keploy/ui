@@ -16,11 +16,11 @@ import {navigate} from "gatsby";
 import { POLLING_INTERVAL } from "../../constants";
 
 export interface TestTabProps {
-  app: string
+  app: string | null
   refetch: () => void
-  tc: string
-  setTc: React.Dispatch<React.SetStateAction<string>>
-  index:number
+  tc: string | null
+  setTc: React.Dispatch<React.SetStateAction<string | null>>
+  index:number | null
 }
 
 export interface TcRow {

@@ -56,9 +56,6 @@ export default function TestRunDetail(props: TestRunDetailProps) {
     setValue(newValue)
   }
 
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   return (
     <React.Fragment>
       <SEO title="Test Run Details" />

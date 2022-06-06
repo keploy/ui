@@ -74,7 +74,7 @@ export default function TestList() {
               aria-label="Vertical tabs endpoints"
               className={classes.tabs}>
               {[...data.apps].map((e, i) => (
-                <CustomTab key={e.id}onClick={()=>{setTc("");navigate(`?index=${i}`)}} label={<React.Fragment>
+                <CustomTab key={e.id} onClick={()=>{setTc("");navigate(`?index=${i}`)}} label={<React.Fragment>
                   <Link to={`${e.id}`} style={{ textDecoration: 'none' }}>
                     <Grid container >
                       <Typography className={classes.url}>{e.id}</Typography>

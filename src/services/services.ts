@@ -105,6 +105,7 @@ export function deepCopyTc(original : TestCase) {
     httpReq: {
       protoMajor: original.httpReq?.protoMajor,
       protoMinor: original.httpReq?.protoMinor,
+      url: original.httpReq?.url,
       urlParam:  JSON.parse(JSON.stringify(original.httpReq?.urlParam)),
       header:  JSON.parse(JSON.stringify(original.httpReq?.header)),
       method: original.httpReq?.method,

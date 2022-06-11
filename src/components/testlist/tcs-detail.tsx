@@ -41,7 +41,7 @@ export default function TcsDetail(props: TcsDetailProps) {
   if (loading) return <Loading />
   if (error) return <ErrorView msg={error.message} />
   if (tc == null || tc.testCase == null || tc.testCase.length == null) {
-    return <Empty message={"Uh! Oh! This test case doesn't exist anymore."} doc={"https://docs.keploy.io"} image={EmptyImg}/>
+    return <Empty message={"Uh! Oh! This test case doesn't exist anymore."} doc={"https://docs.keploy.io"} image={EmptyImg} />
   }
 
   const data = tc.testCase[0]
@@ -55,7 +55,7 @@ export default function TcsDetail(props: TcsDetailProps) {
   }
 
   return (
-    <Grid sx={{minHeight: '80vh'}} >
+    <Grid sx={{ minHeight: '80vh' }} >
       {!editTest && (
         <React.Fragment>
           <Grid container>
@@ -76,14 +76,14 @@ export default function TcsDetail(props: TcsDetailProps) {
                     color: 'warning.main',
                   },
                 }}
-                      onClick={()=> {
-                        setEditTest(true)
-                        setValue(0)
-                      }}
+                  onClick={() => {
+                    setEditTest(true)
+                    setValue(0)
+                  }}
                 />
               </Tooltip>
               <Close sx={{ margin: 2 }} onClick={() => {
-                props.close? props.close() : navigate("/testlist")
+                props.close ? props.close() : navigate("/testlist")
               }} />
             </Grid>
           </Grid>
@@ -92,13 +92,14 @@ export default function TcsDetail(props: TcsDetailProps) {
               <AntTabs value={valueRes} onChange={handleChangeRes} aria-label="basic tabs example">
                 <AntTab label="Body" {...a11yProps(0)} />
                 <AntTab label="Header" {...a11yProps(1)} />
+                <AntTab label="Parameters" {...a11yProps(2)} />
               </AntTabs>
               <Grid container direction={"row"}>
                 <TabPanel value={valueRes} index={0}>
-                  { data.httpResp?.body != null && (
-                    <Grid item container sx={{marginBottom: 10}}>
+                  {data.httpResp?.body != null && (
+                    <Grid item container sx={{ marginBottom: 10 }}>
                       {isJSON(data.httpResp.body) != "object" && (
-                        <Typography sx={{margin: 2}}>{data.httpResp.body}</Typography>
+                        <Typography sx={{ margin: 2 }}>{data.httpResp.body}</Typography>
                       )}
                       {isJSON(data.httpResp.body) == "object" && (
                         <ReactJson
@@ -118,7 +119,7 @@ export default function TcsDetail(props: TcsDetailProps) {
                       )}
                     </Grid>
                   )}
-                  { data.httpResp?.body == null && (
+                  {data.httpResp?.body == null && (
                     <List dense={true}>
                       <ListItem className={classes.listItem}>
                         <ListItemText primary={"Empty"} />
@@ -129,7 +130,7 @@ export default function TcsDetail(props: TcsDetailProps) {
               </Grid>
               <Grid container direction={"row"}>
                 <TabPanel value={valueRes} index={1}>
-                  <Grid item container  sx={{marginBottom: 10}}>
+                  <Grid item container sx={{ marginBottom: 10 }}>
                     {data.httpResp?.header != null && [...data.httpResp.header].map((h) => (
                       <Grid container>
                         <Grid item xs sx={{ padding: 1 }}>
@@ -165,6 +166,33 @@ export default function TcsDetail(props: TcsDetailProps) {
                   </Grid>
                 </TabPanel>
               </Grid>
+              <Grid container direction={"row"}>
+                <TabPanel value={valueRes} index={2}>
+                  <Grid item container sx={{ marginBottom: 10 }}>
+                    <Grid container>
+                      <Grid item xs sx={{ padding: 1 }}>
+                        <List dense={true}>
+                          <ListItem className={classes.listItem}>
+                            <Grid container>
+                              <Grid item xs={4}>
+                                <ListItemText primary={"Status Code"} />
+                              </Grid>
+                              <Grid item xs={2} container justifyContent={"center"}>
+                                <ListItemText primary=":" />
+                              </Grid>
+                              <Grid item xs={6} container direction={"column"}>
+                                <Grid item>
+                                  <ListItemText primary={data.httpResp?.statusCode} />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </ListItem>
+                        </List>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </TabPanel>
+              </Grid>
             </TabPanel>
           </Grid>
           <Grid container>
@@ -175,10 +203,10 @@ export default function TcsDetail(props: TcsDetailProps) {
               </AntTabs>
               <Grid container direction={"row"}>
                 <TabPanel value={valueRes} index={0}>
-                  { data.httpReq?.body != null && (
-                    <Grid item container  sx={{marginBottom: 10}}>
+                  {data.httpReq?.body != null && (
+                    <Grid item container sx={{ marginBottom: 10 }}>
                       {isJSON(data.httpReq.body) != "object" && (
-                        <Typography sx={{margin: 2}}>{data.httpReq.body}</Typography>
+                        <Typography sx={{ margin: 2 }}>{data.httpReq.body}</Typography>
                       )}
                       {isJSON(data.httpReq.body) == "object" && (
                         <ReactJson
@@ -192,8 +220,8 @@ export default function TcsDetail(props: TcsDetailProps) {
               </Grid>
               <Grid container direction={"row"}>
                 <TabPanel value={valueRes} index={1}>
-                  { data.httpReq != null && (
-                    <Grid item container direction={"column"}  sx={{marginBottom: 10}}>
+                  {data.httpReq != null && (
+                    <Grid item container direction={"column"} sx={{ marginBottom: 10 }}>
                       <Grid item sx={{ padding: 3 }}>
                         <Typography color={"text.secondary"} variant={"subtitle1"}>Info</Typography>
                       </Grid>
@@ -293,11 +321,11 @@ export default function TcsDetail(props: TcsDetailProps) {
                 src={JSON.parse(JSON.stringify(data))} />
             </TabPanel>
           </Grid>
-          <Grid container sx={{mb: 10}}>
+          <Grid container sx={{ mb: 10 }}>
             <TabPanel value={value} index={2}>
-              { data.deps != null && data.deps.map(d => (
+              {data.deps != null && data.deps.map(d => (
                 <React.Fragment>
-                  <Typography sx={{ mt: 4, mb: 2, ml : 2 }} variant="h6" component="div">
+                  <Typography sx={{ mt: 4, mb: 2, ml: 2 }} variant="h6" component="div">
                     {d.name} <Typography variant={"caption"}> [ {d.type}  ] </Typography>
                   </Typography>
                   <List dense={true}>
@@ -333,7 +361,7 @@ export default function TcsDetail(props: TcsDetailProps) {
         </React.Fragment>
       )}
       {editTest && (
-        <EditTc tc={data} close={()=> setEditTest(false)}/>
+        <EditTc tc={data} close={() => setEditTest(false)} />
       )}
     </Grid>
   )

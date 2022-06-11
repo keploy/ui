@@ -44,7 +44,7 @@ export default function CompareView(props: CompareViewProps) {
   const classes = useStyles()
   const [openOK, setOpenOK] = React.useState(false);
   const [alert, setAlert] = React.useState<AlertProps["severity"]>(undefined)
-  const { data } = useQuery<TestcaseData>(GET_TC_META,{ variables:{id: props.test.testCaseID} })
+  const { data } = useQuery<TestcaseData>(GET_TC_META, { variables: { id: props.test.testCaseID } })
 
   const [normaliseTc] = useMutation<{ normalizeTests: boolean }, { ids: string[] }>(NORMALISE_TC, {
     variables: {
@@ -66,9 +66,9 @@ export default function CompareView(props: CompareViewProps) {
         }
         return
       }).catch((err) => {
-      console.log(err)
-      setAlert("error")
-    })
+        console.log(err)
+        setAlert("error")
+      })
     handleCloseOK()
   }
 
@@ -85,11 +85,11 @@ export default function CompareView(props: CompareViewProps) {
   }
 
   return (
-    <Grid sx={{minHeight: '80vh'}}>
+    <Grid sx={{ minHeight: '80vh' }}>
       <Grid container>
         <Grid item xs={8}>
           <AntTabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <AntTab label="Response" {...a11yProps(0)} normal={props.test.result.bodyResult.normal && (props.test.result.headersResult? props.test.result.headersResult.filter(hr => (!hr.normal)).length == 0 : true)}/>
+            <AntTab label="Response" {...a11yProps(0)} normal={props.test.result.bodyResult.normal && (props.test.result.headersResult ? props.test.result.headersResult.filter(hr => (!hr.normal)).length == 0 : true)} />
             <AntTab label="Request" {...a11yProps(1)} />
             <AntTab label="Dependency" {...a11yProps(2)} />
             <AntTab label="Raw Events" {...a11yProps(3)} />
@@ -105,23 +105,23 @@ export default function CompareView(props: CompareViewProps) {
                   color: 'warning.main',
                 },
               }}
-                    onClick={()=> {
-                      navigate("/testlist/tc/?id=" + props.test.testCaseID)
-                    }}
+                onClick={() => {
+                  navigate("/testlist/tc/?id=" + props.test.testCaseID)
+                }}
               />
             </Tooltip>
           )}
-          {data != null && !(props.test.result.bodyResult.normal && (props.test.result.headersResult? props.test.result.headersResult.filter(hr => (!hr.normal)).length == 0 : true)) && (
-            <Tooltip title={ "Accept as Normal Behaviour"}>
+          {data != null && !(props.test.result.bodyResult.normal && (props.test.result.headersResult ? props.test.result.headersResult.filter(hr => (!hr.normal)).length == 0 : true)) && (
+            <Tooltip title={"Accept as Normal Behaviour"}>
               <CheckCircle
-                onClick={()=> setOpenOK(true)}
+                onClick={() => setOpenOK(true)}
                 sx={{
                   marginRight: 2,
                   color: "#d2d2d2",
                   ':hover': {
                     color: "#4caf50",
                   },
-                }}/>
+                }} />
             </Tooltip>
           )}
           <Close sx={{
@@ -137,12 +137,13 @@ export default function CompareView(props: CompareViewProps) {
       <Grid container>
         <TabPanel value={value} index={0}>
           <AntTabs value={valueRes} onChange={handleChangeRes} aria-label="basic tabs example">
-            <AntTab label="Body" {...a11yProps(0)} normal ={props.test.result.bodyResult.normal} />
-            <AntTab label="Header" {...a11yProps(1)} normal={(props.test.result.headersResult? props.test.result.headersResult.filter(hr => (!hr.normal)).length == 0 : true)} />
+            <AntTab label="Body" {...a11yProps(0)} normal={props.test.result.bodyResult.normal} />
+            <AntTab label="Header" {...a11yProps(1)} normal={(props.test.result.headersResult ? props.test.result.headersResult.filter(hr => (!hr.normal)).length == 0 : true)} />
+            <AntTab label="Parameters" {...a11yProps(2)} normal={props.test.result.statusCode.normal} />
           </AntTabs>
           <Grid container direction={"row"}>
             <TabPanel value={valueRes} index={0}>
-              { props.test.result.bodyResult != null && (
+              {props.test.result.bodyResult != null && (
                 <Grid item container>
                   <Grid item xs={6} sx={{ padding: 1 }}>
                     <Typography className={classes.caption}>Expected Response</Typography>
@@ -251,6 +252,34 @@ export default function CompareView(props: CompareViewProps) {
               </Grid>
             </TabPanel>
           </Grid>
+          <Grid>
+            <TabPanel value={valueRes} index={2} >
+              <Grid item container>
+                <Grid item xs={6} sx={{ padding: 1 }}>
+                  <Typography className={classes.caption}>Expected Parameters</Typography>
+                </Grid>
+                <Grid item xs={6} sx={{ padding: 1 }}>
+                  <Typography className={classes.caption}>Actual Parameters</Typography>
+                </Grid>
+                <Grid container xs={12}>
+                  <ReactDiffViewer
+                    hideLineNumbers={true}
+                    styles={{
+                      line: {
+                        wordBreak: 'break-word',
+                      },
+                    }}
+                    noise={props.test.noise}
+                    compareMethod={DiffMethod.CHARS}
+                    oldValue={props.test.result.statusCode.expected.toString()}
+                    newValue={props.test.result.statusCode.actual.toString()}
+                    splitView={true}
+                    showDiffOnly={false}
+                  />
+                </Grid>
+              </Grid>
+            </TabPanel>
+          </Grid>
         </TabPanel>
       </Grid>
       <Grid container>
@@ -261,7 +290,7 @@ export default function CompareView(props: CompareViewProps) {
           </AntTabs>
           <Grid container direction={"row"} >
             <TabPanel value={valueRes} index={0}>
-              { props.test.req.body != null && (
+              {props.test.req.body != null && (
                 <Grid item container>
                   {isJSON(props.test.req.body) != "object" && (
                     <Typography>{props.test.req.body}</Typography>
@@ -368,9 +397,9 @@ export default function CompareView(props: CompareViewProps) {
       </Grid>
       <Grid container>
         <TabPanel value={value} index={2}>
-          { props.test.deps != null && props.test.deps.map(d => (
+          {props.test.deps != null && props.test.deps.map(d => (
             <React.Fragment>
-              <Typography sx={{ mt: 4, mb: 2, ml : 2 }} variant="h6" component="div">
+              <Typography sx={{ mt: 4, mb: 2, ml: 2 }} variant="h6" component="div">
                 {d.name} <Typography variant={"caption"}> [ {d.type}  ] </Typography>
               </Typography>
               <List dense={true}>
@@ -394,7 +423,7 @@ export default function CompareView(props: CompareViewProps) {
               </List>
             </React.Fragment>
           ))}
-          { props.test.deps == null && (
+          {props.test.deps == null && (
             <List dense={true}>
               <ListItem className={classes.listItem}>
                 <ListItemText primary={"Empty"} />
@@ -411,13 +440,13 @@ export default function CompareView(props: CompareViewProps) {
             src={JSON.parse(JSON.stringify(props.test))} />
         </TabPanel>
       </Grid>
-      <CustomDialog  msg={"By accepting this, the test case will be edited permanently.\n" +
-      "            Going forward the actual response of this test-case will be\n" +
-      "            the expected(normal) response. Do you still want to\n" +
-      "            continue?"}
-                     open={openOK} closefn={handleCloseOK} okfn={handleClickNormalise} title={"Use this Response as Normal Behaviour?"}/>
+      <CustomDialog msg={"By accepting this, the test case will be edited permanently.\n" +
+        "            Going forward the actual response of this test-case will be\n" +
+        "            the expected(normal) response. Do you still want to\n" +
+        "            continue?"}
+        open={openOK} closefn={handleCloseOK} okfn={handleClickNormalise} title={"Use this Response as Normal Behaviour?"} />
       {alert != undefined && (
-        <CustomAlert msg={alert=="success"? "Test Case Updated!" : "Failed to Update!"} open={true} severity={alert}/>
+        <CustomAlert msg={alert == "success" ? "Test Case Updated!" : "Failed to Update!"} open={true} severity={alert} />
       )}
     </Grid>
   )

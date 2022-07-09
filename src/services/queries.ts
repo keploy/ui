@@ -182,6 +182,33 @@ query getTc ($id : String!) {
 }
 `
 
+export const GET_APP_TC_META_WITH_COUNT = gql`
+query getTcWithCount ($app: String!, $offset: Int!, $limit: Int!) {
+  testCases(app: $app, offset: $offset, limit: $limit){
+    tc {
+        id
+        created
+        updated
+        captured
+        uri
+        httpReq {
+            protoMajor
+            protoMinor
+            method
+            url
+          }
+          httpResp {
+                  statusCode
+              }
+        deps {
+              name
+              type
+          }
+      }
+   count
+  }
+}`
+
 export const GET_APP_TC_META = gql`
 query getTc ($app : String!) {
   testCase(app: $app) {
@@ -270,6 +297,13 @@ export interface AppTCs {
 
 export interface AppTCsMeta {
   testCase: TestCase[]
+}
+
+export interface AppTCsMetaWithCount {
+  testCases: {
+    tc: TestCase[]
+    count: number
+  }
 }
 
 export interface TestRunData {

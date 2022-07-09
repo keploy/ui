@@ -1,5 +1,5 @@
 import React from "react"
-import { AppTCsMeta, DELETE_TC, GET_APP_TC_META, Method } from "../../services/queries"
+import { AppTCsMetaWithCount, DELETE_TC, GET_APP_TC_META_WITH_COUNT, Method } from "../../services/queries"
 import { getTcRows } from "../../services/services"
 import { DataGrid, GridCellParams, GridColDef, GridRenderCellParams, MuiEvent } from "@mui/x-data-grid"
 import { Box, IconButton } from "@mui/material"
@@ -35,9 +35,10 @@ export interface TcRow {
 export default function TestCasesTab(props: TestTabProps) {
   const{tc,setTc,index}=props
   const [pageSize, setPageSize] = React.useState<number>(25)
+  const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [delete_tc, setDeleteTc] = React.useState("")
-  const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
-    variables: { app: props.app },
+  const { loading, error, data, refetch } = useQuery<AppTCsMetaWithCount>(GET_APP_TC_META_WITH_COUNT, {
+    variables: { app: props.app, offset: pageSize*pageIndex, limit: pageSize },
     pollInterval: POLLING_INTERVAL,
   })
 
@@ -50,7 +51,7 @@ export default function TestCasesTab(props: TestTabProps) {
   if (loading) return <Loading />
   if (error) return <ErrorView msg={error.message} />
 
-  if (data == undefined || data.testCase == undefined || data.testCase.length == 0) {
+  if (data == undefined || data.testCases == undefined || data.testCases.tc == undefined || data.testCases.tc.length == 0) {
     return (<Empty doc={"https://docs.keploy.io/"} message={"No Test Cases Recorded Yet! "} image={EmptyImg}/>)
   }
 
@@ -143,7 +144,7 @@ export default function TestCasesTab(props: TestTabProps) {
     },
   ]
 
-  const rows: TcRow[] = getTcRows(data.testCase)
+  const rows: TcRow[] = getTcRows(data.testCases.tc)
 
   return (
     <Box sx={{
@@ -159,11 +160,17 @@ export default function TestCasesTab(props: TestTabProps) {
                   onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                   rowsPerPageOptions={[25, 50, 100]}
                   pagination
+                  paginationMode="server"
+                  rowCount={data.testCases.count}
                   autoHeight={true}
+                  onPageChange={(pageIndex) => {
+                    setPageIndex(pageIndex)
+                  }}
+                  page={pageIndex}
                   onCellClick={(params: GridCellParams, event: MuiEvent<React.MouseEvent>) => {
                     if (params.field != "methods"){
                       event.defaultMuiPrevented = true
-                      let t = data.testCase.filter((item) => item.id == params.id)
+                      let t = data.testCases.tc.filter((item) => item.id == params.id)
                       setTc(t[0].id)
                       navigate("?index="+index+"&tcId="+t[0].id)
                     } else {

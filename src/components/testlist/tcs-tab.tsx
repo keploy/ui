@@ -39,7 +39,7 @@ export default function TestCasesTab(props: TestTabProps) {
   const [delete_tc, setDeleteTc] = React.useState("")
 
   const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
-    variables: { app: props.app, offset: pageIndex*pageSize, limit: (pageSize*(pageIndex+1))+1 },
+    variables: { app: props.app, offset: 0, limit: (pageSize*(pageIndex+1))+1 },
     pollInterval: POLLING_INTERVAL,
   })
 
@@ -176,7 +176,7 @@ export default function TestCasesTab(props: TestTabProps) {
                       setDeleteTc(params.row['id'])
                     }
                   }}
-                  components={{ Toolbar: CustomToolbar }} />
+                  components={{ Toolbar: CustomToolbar }} />            
       )}
       {tc != "" && (
         <TcsDetail tc={tc} close={() => {

@@ -183,8 +183,8 @@ query getTc ($id : String!) {
 `
 
 export const GET_APP_TC_META = gql`
-query getTc ($app : String!) {
-  testCase(app: $app) {
+query getTc ($app : String!,$offset : Int!, $limit : Int!) {
+  testCase(app: $app,offset: $offset,limit :$limit) {
           id
           created
           updated

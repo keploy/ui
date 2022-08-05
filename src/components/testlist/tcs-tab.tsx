@@ -37,9 +37,10 @@ export default function TestCasesTab(props: TestTabProps) {
   const [pageSize, setPageSize] = React.useState<number>(25)
   const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [delete_tc, setDeleteTc] = React.useState("")
+  const maxLimit =  100000 //maxLimit for useQuery is set to 10^5. 
 
   const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
-    variables: { app: props.app, offset: 0, limit: (pageSize*(pageIndex+1))+1 },
+    variables: { app: props.app, offset: 0, limit: maxLimit},
     pollInterval: POLLING_INTERVAL,
   })
 

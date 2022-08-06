@@ -35,7 +35,6 @@ export interface TcRow {
 export default function TestCasesTab(props: TestTabProps) {
   const{tc,setTc,index}=props
   const [pageSize, setPageSize] = React.useState<number>(25)
-  const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [delete_tc, setDeleteTc] = React.useState("")
   const maxLimit =  100000 //maxLimit for useQuery is set to 10^5. 
 
@@ -163,10 +162,6 @@ export default function TestCasesTab(props: TestTabProps) {
                   rowsPerPageOptions={[25, 50, 100]}
                   pagination
                   autoHeight={true}
-                  onPageChange={(pageIndex) => {
-                    setPageIndex(pageIndex)
-                  }}
-                  page={pageIndex}
                   onCellClick={(params: GridCellParams, event: MuiEvent<React.MouseEvent>) => {
                     if (params.field != "methods"){
                       event.defaultMuiPrevented = true

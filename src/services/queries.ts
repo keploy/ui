@@ -183,8 +183,8 @@ query getTc ($id : String!) {
 `
 
 export const GET_APP_TC_META = gql`
-query getTc ($app : String!) {
-  testCase(app: $app) {
+query getTc ($app : String!,$offset : Int!, $limit : Int!) {
+  testCase(app: $app,offset: $offset,limit :$limit) {
           id
           created
           updated
@@ -203,6 +203,13 @@ query getTc ($app : String!) {
                 name
                 type
             }
+  }
+}
+`
+export const GET_TOTAL_TC = gql`
+query getTc ($app : String!,$offset : Int!, $limit : Int!){
+  testCase(app: $app,offset: $offset,limit :$limit) {
+          id
   }
 }
 `
@@ -253,6 +260,8 @@ query getTc ($app : String!) {
   }
 }
 `
+
+
 
 export const NORMALISE_TC = gql`
   mutation normalizeTests( $ids: [String!]!) {

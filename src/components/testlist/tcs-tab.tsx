@@ -35,6 +35,7 @@ export interface TcRow {
 export default function TestCasesTab(props: TestTabProps) {
   const{tc,setTc,index}=props
   const [pageSize, setPageSize] = React.useState<number>(25)
+  const [pageIndex, setPageIndex] = React.useState<number>(0)
   const [delete_tc, setDeleteTc] = React.useState("")
   const maxLimit =  100000 //maxLimit for useQuery is set to 10^5. 
   
@@ -47,7 +48,7 @@ export default function TestCasesTab(props: TestTabProps) {
   // This is a temporary fix for pagination issue.
   const totalTcCount = totalTcId.data?.testCase.length
   const { loading, error, data, refetch } = useQuery<AppTCsMeta>(GET_APP_TC_META, {
-    variables: { app: props.app, offset: 0, limit: maxLimit},
+    variables: { app: props.app, offset: 0, limit: ((pageIndex+1)*pageSize)+1},
     pollInterval: POLLING_INTERVAL,
   })
 

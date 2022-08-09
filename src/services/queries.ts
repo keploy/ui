@@ -206,6 +206,13 @@ query getTc ($app : String!,$offset : Int!, $limit : Int!) {
   }
 }
 `
+export const GET_TOTAL_TC = gql`
+query getTc ($app : String!,$offset : Int!, $limit : Int!){
+  testCase(app: $app,offset: $offset,limit :$limit) {
+          id
+  }
+}
+`
 
 export const GET_APP_TC = gql`
 query getTc ($app : String!) {
@@ -253,6 +260,8 @@ query getTc ($app : String!) {
   }
 }
 `
+
+
 
 export const NORMALISE_TC = gql`
   mutation normalizeTests( $ids: [String!]!) {

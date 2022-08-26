@@ -9,13 +9,18 @@ export interface EmptyProps {
 }
 
 export default function Empty (props : EmptyProps){
+  var paperHeight = `calc(100vh)`
+  if(props.image === "None"){
+    //This Case is for Onboarding page.
+    paperHeight = `calc(0vh)`
+  }
   return (
     <Paper
       elevation={0}
       sx={{
         backgroundColor: (t) => t.palette.background.default,
         margin: 0,
-        height: `calc(100vh)`,
+        height: paperHeight,
       }}
     >
       <Grid
@@ -27,7 +32,8 @@ export default function Empty (props : EmptyProps){
           height: `100%`,
         }}
       >
-        <Box
+      {props.image !== "None"?
+      <Box
           component="img"
           sx={{
             height: `calc(70vh)`,
@@ -36,6 +42,7 @@ export default function Empty (props : EmptyProps){
           alt= {props.message}
           src={props.image +"?auto=format&w=350&dpr=2"}
         />
+        :<br/>}
         <Typography variant="subtitle1" sx={{mt : 2}}>
           {props.message}
         </Typography>

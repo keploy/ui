@@ -5,9 +5,9 @@ import SEO from "../global/seo"
 import { makeStyles } from "@mui/styles"
 import TestCasesTab from "./tcs-tab"
 import { bgImg } from "../../services/services"
+import OnboardApp from "../onboarding/App"
 // @ts-ignore
-import EmptyImg from "../../../static/empty3.png"
-import Empty from "../global/empty"
+// import Empty from "../global/empty"
 import { useQuery } from "@apollo/client"
 import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
@@ -46,7 +46,10 @@ export default function TestList() {
   if (loading) return (<Loading />)
   if (error) return <ErrorView msg={error.message} />
   if (data == undefined || data?.apps == undefined || data?.apps.length == 0) {
-    return (<Empty doc={"https://docs.keploy.io/"} message={"Please add some apps by integrating SDK and running application in Capture mode! "} image={EmptyImg} />)
+    return(
+      <OnboardApp/>
+    )
+    // return (<Empty doc={"https://docs.keploy.io/"} message={"Please add some apps by integrating SDK and running application in Capture mode! "} image={EmptyImg} />)
   }
 
   const handleChange = (_: React.ChangeEvent<{}>, newValue: number) => {

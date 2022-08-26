@@ -9,48 +9,6 @@
     padding-left: 5px;
   }
   
-  .chb-1-onboard + label::before {
-    position: absolute;
-    
-    width: 16px;
-    height: 16px;
-    background-color: #16a085;
-    border-radius: 3px;
-    content: "";
-    
-    top: 4px;
-    left: -20px;
-    padding-bottom: 5px;
-    
-    font-size: 11px;
-    text-align: center;
-    font-weight: bolder;
-  }
-  
-  .chb-2-onboard + label::before {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    
-    background-image: url(https://img.icons8.com/bubbles/100/000000/unchecked-checkbox.png);
-    background-size: cover;
-  /*   backgroun-position: center center; */
-    content: " ";
-    
-    left: -28px;
-    top: -2px;
-    
-  }
-  
-  .chb-1-onboard:checked + label::before {
-    color: white;
-    content: '\2713';
-  }
-  
-  .chb-2-onboard:checked + label::before {
-    background-image: url(https://img.icons8.com/bubbles/100/000000/checked-checkbox.png)
-  }
-  
   .chb-3-onboard + label::before {
     position: absolute;
     left: -20px;

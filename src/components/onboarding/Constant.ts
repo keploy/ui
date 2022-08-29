@@ -17,3 +17,7 @@ export const details : any = {"Go":{"Chi":'r := chi.NewRouter()\nkchi.ChiV5(k,r)
 export const images : any = {"Go":"https://cdn.worldvectorlogo.com/logos/go-logo-1.svg",
                             "Java":"https://logoeps.com/wp-content/uploads/2011/06/java-logo-vector.png"
 }
+
+export const issueLink : any = {"Go":"https://github.com/keploy/go-sdk/issues/new?assignees=&labels=&template=feature_request.md&title=",
+                            "Java":"https://github.com/keploy/java-sdk/issues/new?assignees=&labels=feature&template=--feature-request.yaml&title=%5Bfeature%5D%3A+"
+}

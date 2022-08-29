@@ -26,6 +26,10 @@
   /* text-align: center; */
 }
 
+.link-github{
+  padding-right: 30px;
+}
+
 .btn-onboard{
   appearance: none;
     -webkit-appearance: none;

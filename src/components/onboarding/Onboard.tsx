@@ -1,24 +1,12 @@
 import React, { useState }from 'react';
 import { Accordion } from './Accordion';
-import {languages,frameworks,details,images} from './Constant';
+import {languages,frameworks,details,images,issueLink} from './Constant';
 import Empty from '../global/empty';
 import { ListFrameworks,ListLangs } from "./OnboardUtils";
 
 export default function Onboard(){
     const [language, setLang] = useState("None");
     const [options, setOptions] = useState([]);
-    function askInput(){
-        var otherFramework = prompt("Which Framework do you use ?","Example : fastHttp");
-        fetch("https://telemetry.keploy.io/analytics/otherframeworks", {
-                method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({framework: otherFramework})
-        }).catch(error => {
-            console.log(error);
-        });
-    }
 
     if(language === "None"){
         return(
@@ -46,10 +34,10 @@ export default function Onboard(){
                     <img className='heading' src={images[language]} alt={language}/>
                 </div>
                 <ListFrameworks method = {setOptions} frameworks = {framework} setLang = {setLang}/>
-                <div className="flex-2-onboard other">
-                <form onSubmit={formSubmitEvent => {formSubmitEvent.preventDefault();askInput();}}>
-                    <button className="btn-onboard btn-primary-onboard btn-round-1-onboard" type="submit">Other Framework ?</button>
-                </form>
+                <div className="link-github">
+                <a href={issueLink[language]}>
+                    Create Issue for New Dependency on Github !
+                </a>
                 </div>
                 <br/>
                 <br/>

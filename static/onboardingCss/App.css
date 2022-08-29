@@ -1,0 +1,90 @@
+.App {
+  text-align: center;
+}
+
+.body-onboard {
+  background: #fafafa;
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/*  */
+
+.flex-1-onboard{
+  display: flex;
+}
+
+.flex-2-onboard{
+  display: flex;
+  gap:5px;
+  padding-left: 80px;
+  padding-right: 80px;
+  /* text-align: center; */
+}
+
+.link-github{
+  padding-right: 30px;
+}
+
+.btn-onboard{
+  appearance: none;
+    -webkit-appearance: none;
+  font-family: sans-serif;
+  cursor: pointer;
+  padding: 12px;
+  min-width: 100px;
+  border: 0px;
+    -webkit-transition: background-color 100ms linear;
+    -ms-transition: background-color 100ms linear;
+     transition: background-color 100ms linear;
+}
+
+.btn-onboard {
+  appearance: none;
+    -webkit-appearance: none;
+  font-family: sans-serif;
+  cursor: pointer;
+  padding: 12px;
+  min-width: 100px;
+  border: 0px;
+    -webkit-transition: background-color 100ms linear;
+    -ms-transition: background-color 100ms linear;
+     transition: background-color 100ms linear;
+}
+
+.btn-onboard:focus, .btn-onboard.focus {
+  outline: 0;
+}
+
+.btn-round-1-onboard {
+  border-radius: 8px;
+}
+
+.btn-primary-onboard {
+  background: #0f75ea;
+  color: #ffffff;
+}
+
+.btn-primary-onboard:hover {
+  background: #0549a8;
+  color: #ffffff;
+}
+
+.other{
+  padding-left: 130px;
+}
+
+.heading{
+  width: 100px;
+  height: 100px;
+  padding-right: 2rem;
+}
+
+.framework{
+  /* position:static */
+  padding-bottom: 7rem;
+}

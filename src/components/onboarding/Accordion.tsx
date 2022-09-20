@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import CopyToClipboard from "./CopyToClipboard"
 import '../../../static/onboardingCss/Accordion.css'
 
 export interface PanelProps {
@@ -19,7 +20,7 @@ function Panel(props: PanelProps){
 
     useEffect(()=>{
         window.setTimeout(() => {
-			setHeight(500)
+			setHeight(620)
 		}, 333);
     },[])
 
@@ -36,9 +37,12 @@ function Panel(props: PanelProps){
             <div className='panel__inner'
                 style={ innerStyle }
                 aria-hidden={ !isActive }>
+                <div className="clipboard">
+                    <CopyToClipboard data={props.content}/>
+                </div>
                 <p className='panel__content'>
                     <pre>
-                    { props.content }
+                        { props.content }
                     </pre>
                 </p>
             </div>

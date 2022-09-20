@@ -1,12 +1,12 @@
 .chb-onboard {
     visibility: hidden;
     /* align-items:unset; */
-    margin-left: -40px;
+    margin-left: -60px;
   }
   
   .chb-onboard + label {
     position: absolute;
-    padding-left: 5px;
+    padding-left: 17px;
   }
   
   .chb-3-onboard + label::before {
@@ -47,5 +47,9 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+  }
+
+  .largeFont{
+    font-size:large;
   }
   

@@ -27,7 +27,7 @@ Developers can use keploy alongside their favorite unit testing framework to sav
 
 ## Installation
 
-This is the UI repository of Keploy platform. Please follow [QuickStart/Installation guide](https://github.com/keploy/keploy#quickstart).
+This is the UI repository of Keploy Platform. Please follow [QuickStart/Installation guide](https://github.com/keploy/keploy#quickstart).
 
 ## Contribution
 

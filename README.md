@@ -44,7 +44,7 @@ docker-compose -f docker-compose-dev.yaml up --build
 git clone https://github.com/keploy/ui.git && cd ui
 npm i 
 ```
-For development, we'll add the API URL as local keploy server url running at http://localhost:8081
+For development, we'll add the API URL as local keploy server url running at http://localhost:6789
 ```shell
 export GATSBY_API_URL=http://localhost:8081/api
 ```

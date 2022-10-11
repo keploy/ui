@@ -1,5 +1,5 @@
 module.exports = {
-  pathPrefix: `/keploy`,
+  pathPrefix: `${PATH_PREFIX}`,
   siteMetadata: {
     title: `Keploy.`,
     description: `API testing without writing test cases or setting up test environments`,
@@ -56,7 +56,7 @@ module.exports = {
       options: {
         name: `gatsby-starter-default`,
         short_name: `starter`,
-        start_url: `/keploy`,
+        start_url: `${PATH_PREFIX}`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,

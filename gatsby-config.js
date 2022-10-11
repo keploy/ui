@@ -1,5 +1,9 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
-  pathPrefix: `${PATH_PREFIX_PATH}`,
+  pathPrefix: process.env.PATH_PREFIX_PATH,
   siteMetadata: {
     title: `Keploy.`,
     description: `API testing without writing test cases or setting up test environments`,
@@ -56,7 +60,7 @@ module.exports = {
       options: {
         name: `gatsby-starter-default`,
         short_name: `starter`,
-        start_url: `${PATH_PREFIX_PATH}`,
+        start_url: process.env.PATH_PREFIX_PATH,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,

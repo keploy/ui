@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: process.env.PATH_PREFIX || "/",
   siteMetadata: {
     title: `Keploy.`,
     description: `API testing without writing test cases or setting up test environments`,

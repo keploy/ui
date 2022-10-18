@@ -61,7 +61,6 @@
     "use-query-params": "^1.2.2"
   },
   "devDependencies": {
-    "@types/apollo-upload-client": "^14.1.0",
     "@types/loadable__component": "^5.13.4",
     "@types/prismjs": "^1.16.6",
     "@types/react-date-range": "^1.4.2",

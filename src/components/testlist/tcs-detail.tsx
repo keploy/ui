@@ -45,7 +45,6 @@ export default function TcsDetail(props: TcsDetailProps) {
   }
 
   const data = tc.testCase[0]
-
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }

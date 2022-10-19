@@ -4,8 +4,7 @@ import Layout from "../../components/global/layout"
 import SEO from "../../components/global/seo"
 import { navigate } from "gatsby"
 import React from "react"
-import { useQueryParamString } from 'react-use-query-param-string';
-// import { StringParam,NumberParam, useQueryParam } from "use-query-params"
+import { getQueryParams } from "react-use-query-param-string";
 import TestRunDetail from "../../components/testrun/testrun-detail"
 import { ThemeProvider } from "@mui/material/styles"
 import { theme } from "../../services/services"
@@ -15,9 +14,10 @@ export default function Detail() {
     return null
   }
 
-  const [id] = useQueryParamString("id", '')
-  const [index='0'] = useQueryParamString("index",'0' )
-  const [tdId=""]=useQueryParamString("tdId",'')
+  const params = getQueryParams();
+  const id = params['id']? params['id'].toString(): ""
+  const index = params['index']? params['index']: '0'
+  const tdId=  params['tdId']? params['tdId'].toString(): ""
 
   if (id == null) {
     typeof window !== `undefined` && navigate("/testruns")
@@ -27,7 +27,7 @@ export default function Detail() {
       <ThemeProvider theme={theme}>
         <Layout>
           <SEO title="Testrun Details" />
-          <TestRunDetail testRunID={id!} index={index.toString()} tdId={tdId} />
+          <TestRunDetail testRunID={id!} index={Number(index)} tdId={tdId} />
         </Layout>
       </ThemeProvider>
     </ApolloProvider>

@@ -26,7 +26,7 @@ export interface TestTabProps {
   editMode: boolean
   tdId:string | null | undefined
   testRunID:string
-  index:number | null
+  index:string | null
   data: TestRunData
 }
 
@@ -53,6 +53,12 @@ function renderStatus(params: GridRenderCellParams<TestStatus>) {
   let styleClass: Color = "warning"
 
   let startIcon = <HourglassEmpty color={"warning"} />
+  if (params.value == undefined) {
+    styleClass = "error"
+    startIcon = <Close color={"error"} />
+    return <Chip sx={{ minWidth: "30%" }} variant="outlined" color={styleClass}
+                 avatar={<IconButton>{startIcon}</IconButton>} label={params.value} />
+  }
 
   switch (params.value.valueOf()) {
     case "PASSED": {

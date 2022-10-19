@@ -13,7 +13,9 @@ import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
 import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
 import { Link,navigate } from "gatsby";
-import {NumberParam, StringParam, useQueryParam} from "use-query-params"
+
+import { useQueryParamString } from 'react-use-query-param-string';
+// import {NumberParam, StringParam, useQueryParam} from "use-query-params"
 import { POLLING_INTERVAL } from "../../constants";
 
 const useStyles = makeStyles(() => ({
@@ -34,9 +36,9 @@ const useStyles = makeStyles(() => ({
 
 export default function TestList() {
   const classes = useStyles()
-  const [index=0]=useQueryParam("index",NumberParam)
-  const [tcId=""]=useQueryParam("tcId",StringParam)
-  const [value, setValue] = React.useState<number>(index? index : 0)
+  const [index=0]= useQueryParamString("index", '')
+  const [tcId=""]=useQueryParamString("tcId",'')
+  const [value, setValue] = React.useState<number>(Number(index)? Number(index) : 0)
   const [tc, setTc] = React.useState(tcId)
 
   const { loading, error, data, refetch } = useQuery<AppsData>(GET_APPS, {
@@ -91,7 +93,7 @@ export default function TestList() {
         <Grid item xs={10}>
           {[...data.apps].map((k, i) => (
             <TabPanelBox key={k.id} value={value > data?.apps.length - 1 ? 0 : value} index={i}>
-              <TestCasesTab app={k.id} refetch={refetch} tc={tc} setTc={setTc} index={index}/>
+              <TestCasesTab app={k.id} refetch={refetch} tc={tc} setTc={setTc} index={Number(index)}/>
             </TabPanelBox>
           ))}
         </Grid>

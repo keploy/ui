@@ -6,6 +6,12 @@ module.exports = {
     author: `@nehagup`,
   },
   plugins: [
+    {
+      // Add paths to pages that set query params here.
+      // This is a workaround: https://github.com/alexluong/gatsby-packages/issues/41
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/testlist/tc/*`, '/testruns/details/*'] },
+    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -50,15 +56,15 @@ module.exports = {
     `gatsby-plugin-typescript`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    `gatsby-plugin-use-query-params`,
+    // `gatsby-plugin-use-query-params`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `gatsby-starter-default`,
         short_name: `starter`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#ff904d`,
+        theme_color: `#ff904d`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the project.
       },

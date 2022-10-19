@@ -1,5 +1,6 @@
 import { CLIENT } from "../../constants"
-import { StringParam, useQueryParam } from "use-query-params"
+// import { StringParam, useQueryParam } from "use-query-params"
+import { useQueryParamString } from 'react-use-query-param-string';
 import { navigate } from "gatsby"
 import { ApolloProvider } from "@apollo/client"
 import { ThemeProvider } from "@mui/material/styles"
@@ -10,7 +11,11 @@ import SEO from "../../components/global/seo"
 import TcsDetail from "../../components/testlist/tcs-detail"
 
 export default function TestCase() {
-  const [id] = useQueryParam("id", StringParam)
+  if (typeof window == 'undefined') {
+    return null
+  }
+
+  const [id] = useQueryParamString("id", '')
   if (id == null) {
     typeof window !== `undefined` && navigate("/testlist")
   }

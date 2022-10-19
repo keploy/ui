@@ -1,6 +1,5 @@
 import { CLIENT } from "../../constants"
-// import { StringParam, useQueryParam } from "use-query-params"
-import { useQueryParamString } from 'react-use-query-param-string';
+import { getQueryParams } from 'react-use-query-param-string';
 import { navigate } from "gatsby"
 import { ApolloProvider } from "@apollo/client"
 import { ThemeProvider } from "@mui/material/styles"
@@ -15,7 +14,8 @@ export default function TestCase() {
     return null
   }
 
-  const [id] = useQueryParamString("id", '')
+  const params = getQueryParams()
+  const id = params["id"]? params["id"].toString(): ""
   if (id == null) {
     typeof window !== `undefined` && navigate("/testlist")
   }

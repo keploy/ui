@@ -26,7 +26,7 @@ export interface TestTabProps {
   editMode: boolean
   tdId:string | null | undefined
   testRunID:string
-  index:string | null
+  index: number | null
   data: TestRunData
 }
 
@@ -162,6 +162,7 @@ export default function TestTab(props: TestTabProps) {
                 event.defaultMuiPrevented = true
                 let t = props.tests.filter((item) => item.id == params.id)
                 setTcData(t[0])
+                console.log("?id="+testRunID+"&index="+index+"&tdId="+t[0].id)
                 navigate("?id="+testRunID+"&index="+index+"&tdId="+t[0].id)
               }}
               components={{ Toolbar: CustomToolbar }} />
@@ -177,6 +178,7 @@ export default function TestTab(props: TestTabProps) {
               checkboxSelection={true}
               isRowSelectable={(params: GridRowParams) => params.row["status"] == TestStatus.FAILED}
               onRowClick={(params: GridRowParams, event: MuiEvent<React.MouseEvent>) => {
+                console.log(tdId)
                 event.defaultMuiPrevented = true
                 let t = props.tests.filter((item) => item.id == params.id)
                 setTcData(t[0])

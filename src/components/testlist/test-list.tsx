@@ -14,7 +14,7 @@ import ErrorView from "../global/error"
 import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
 import { Link,navigate } from "gatsby";
 
-import { useQueryParamString } from 'react-use-query-param-string';
+import { getQueryParams } from "react-use-query-param-string";
 // import {NumberParam, StringParam, useQueryParam} from "use-query-params"
 import { POLLING_INTERVAL } from "../../constants";
 
@@ -36,8 +36,9 @@ const useStyles = makeStyles(() => ({
 
 export default function TestList() {
   const classes = useStyles()
-  const [index=0]= useQueryParamString("index", '')
-  const [tcId=""]=useQueryParamString("tcId",'')
+  const params = getQueryParams()
+  const index= params["index"]?params["index"].toString(): '0'
+  const tcId=params["tcId"]?params["tcId"].toString(): ''
   const [value, setValue] = React.useState<number>(Number(index)? Number(index) : 0)
   const [tc, setTc] = React.useState(tcId)
 

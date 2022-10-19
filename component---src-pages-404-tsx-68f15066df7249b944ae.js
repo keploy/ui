@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkkeploy_ui=self.webpackChunkkeploy_ui||[]).push([[218],{95254:function(e,t,o){o.r(t),o.d(t,{default:function(){return c}});var n=o(67294),s=o(99832),u=o.p+"static/empty3-9182fc323a0340ad9b91d6872477c6d4.png";function c(){return n.createElement(s.Z,{doc:"https://docs.keploy.io/",message:"Whops! This is not the page you're looking for. ",image:u})}}}]);
+//# sourceMappingURL=component---src-pages-404-tsx-68f15066df7249b944ae.js.map

@@ -1,5 +1,1 @@
-{
-    "componentChunkName": "component---src-pages-testlist-tc-tsx",
-    "path": "/testlist/tc/",
-    "result": {"pageContext":{}},
-    "staticQueryHashes": ["63159454"]}
+{"componentChunkName":"component---src-pages-testlist-tc-tsx","path":"/testlist/tc/","result":{"pageContext":{}},"staticQueryHashes":["63159454"],"matchPath":"/testlist/tc/*"}

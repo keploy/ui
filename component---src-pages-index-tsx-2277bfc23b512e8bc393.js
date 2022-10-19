@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkkeploy_ui=self.webpackChunkkeploy_ui||[]).push([[691],{65391:function(u,e,n){n.r(e),n.d(e,{default:function(){return i}});var t=n(67294),f=n(25444);function i(){return(0,t.useEffect)((function(){(0,f.navigate)("/testlist")}),[]),null}}}]);
-//# sourceMappingURL=component---src-pages-index-tsx-2277bfc23b512e8bc393.js.map

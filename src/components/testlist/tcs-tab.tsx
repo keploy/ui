@@ -19,8 +19,8 @@ export interface TestTabProps {
   app: string | null
   refetch: () => void
   tc: string | null
-  setTc: React.Dispatch<React.SetStateAction<string | null>>
-  index:number | null
+  setTc: React.Dispatch<React.SetStateAction<string>>
+  index: number | null
 }
 
 export interface TcRow {

@@ -20,7 +20,7 @@ import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
 import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
 import { Link, navigate } from "gatsby"
-import { NumberParam, StringParam, useQueryParam } from "use-query-params"
+import { useQueryParamString } from 'react-use-query-param-string';
 import { POLLING_INTERVAL } from "../../constants"
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft"
 import { ClassNameMap } from "@material-ui/core/styles/withStyles"
@@ -88,9 +88,9 @@ const AppSwitcher = ({
 
 export default function TestList() {
   const classes = useStyles()
-  const [index = 0] = useQueryParam("index", NumberParam)
-  const [tcId = ""] = useQueryParam("tcId", StringParam)
-  const [value, setValue] = React.useState<number>(index ? index : 0)
+  const [index=0]= useQueryParamString("index", '')
+  const [tcId=""]=useQueryParamString("tcId",'')
+  const [value, setValue] = React.useState<number>(Number(index)? Number(index) : 0)
   const [tc, setTc] = React.useState(tcId)
 
   const [appSwitcherOpen, setAppSwitcherOpen] = React.useState<boolean>(true)
@@ -168,18 +168,16 @@ export default function TestList() {
         </Grid>
         <Grid item xs={appSwitcherOpen ? 10 : 12}>
           {[...data.apps].map((k, i) => (
-            <TabPanelBox
-              key={k.id}
-              value={value > data?.apps.length - 1 ? 0 : value}
-              index={i}
-            >
-              <TestCasesTab
-                app={k.id}
-                refetch={refetch}
-                tc={tc}
-                setTc={setTc}
-                index={index}
-              />
+            <TabPanelBox key={k.id}
+             value={value > data?.apps.length - 1 ? 0 : value} 
+             index={i}
+             >
+              <TestCasesTab 
+              app={k.id} 
+              refetch={refetch} 
+              tc={tc}
+               setTc={setTc} 
+               index={Number(index)}/>
             </TabPanelBox>
           ))}
         </Grid>

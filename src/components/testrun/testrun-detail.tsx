@@ -15,7 +15,7 @@ import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
 import {navigate} from "gatsby"
 export interface TestRunDetailProps {
   testRunID: string
-  index:number | null
+  index:string | null
   tdId:string | null | undefined
 }
 
@@ -52,7 +52,7 @@ export default function TestRunDetail(props: TestRunDetailProps) {
   }
   let urlData = getTestForURL(data.testRun[0].tests)
 
-  const handleChange = (_: React.ChangeEvent<{}>, newValue: number) => {
+  const handleChange = (_: React.ChangeEvent<{}>, newValue: string) => {
     setValue(newValue)
   }
 
@@ -122,7 +122,7 @@ export default function TestRunDetail(props: TestRunDetailProps) {
           </Card>
           {[...urlData.keys()].map((k, i) => (
             <TabPanelBox key={k} value={value} index={i}>
-              <TestTab tests={urlData.get(k)!} editMode={false} tdId={tdId} testRunID={props.testRunID} index={index} data={data}/>
+              <TestTab tests={urlData.get(k)!} editMode={false} tdId={tdId} testRunID={props.testRunID} index={index != null? index.toString(): ''} data={data}/>
             </TabPanelBox>
           ))}
         </Grid>

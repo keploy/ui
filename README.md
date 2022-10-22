@@ -34,7 +34,7 @@ This is the UI repository of Keploy platform. Please follow [QuickStart/Installa
 Make sure you're using **Node version 17.x.x**
 
 ### 1. Start the Keploy Server
-There's a separate [docker-compose](docker-compose-dev.yaml) file which helps which exposes the mongo server and also builds the dockerfile from local code.  The `build` flag ensures that the binary is built again to reflect the latest code changes. There's also [docker-compose-debug.yaml](docker-compose-debug.yaml) which can help remote debugging the go server on port 4000.
+There's a separate [docker-compose](https://github.com/keploy/keploy/blob/main/docker-compose-dev.yaml) file which helps which exposes the mongo server and also builds the dockerfile from local code.  The `build` flag ensures that the binary is built again to reflect the latest code changes. There's also [docker-compose-debug.yaml](https://github.com/keploy/keploy/blob/main/docker-compose-debug.yaml) which can help remote debugging the go server on port 40000.
 ```shell
 git clone https://github.com/keploy/keploy.git && cd keploy
 docker-compose -f docker-compose-dev.yaml up --build

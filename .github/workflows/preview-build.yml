@@ -26,7 +26,7 @@ jobs:
 
       - name: Install and Build
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm run format
           npm run test
           npm run build

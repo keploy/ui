@@ -20,7 +20,7 @@ import Loading from "../global/backdrop"
 import ErrorView from "../global/error"
 import { a11yProps, CustomTab, TabPanelBox } from "../global/tab-panel"
 import { Link, navigate } from "gatsby"
-import { getQueryParams } from "react-use-query-param-string";
+import { getQueryParams } from "react-use-query-param-string"
 import { POLLING_INTERVAL } from "../../constants"
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft"
 import { ClassNameMap } from "@material-ui/core/styles/withStyles"
@@ -69,7 +69,9 @@ const AppSwitcher = ({
       {apps.map((e, i) => (
         <CustomTab
           key={e.id}
-          onClick={onSelectTab(i)}
+          onClick={() => {
+            onSelectTab(i)
+          }}
           label={
             <React.Fragment>
               <Link to={`${e.id}`} style={{ textDecoration: "none" }}>
@@ -89,9 +91,11 @@ const AppSwitcher = ({
 export default function TestList() {
   const classes = useStyles()
   const params = getQueryParams()
-  const index= params["index"]?params["index"].toString(): '0'
-  const tcId=params["tcId"]?params["tcId"].toString(): ''
-  const [value, setValue] = React.useState<number>(Number(index)? Number(index) : 0)
+  const index = params["index"] ? params["index"].toString() : "0"
+  const tcId = params["tcId"] ? params["tcId"].toString() : ""
+  const [value, setValue] = React.useState<number>(
+    Number(index) ? Number(index) : 0
+  )
   const [tc, setTc] = React.useState(tcId)
 
   const [appSwitcherOpen, setAppSwitcherOpen] = React.useState<boolean>(true)
@@ -160,6 +164,7 @@ export default function TestList() {
                 apps={[...data.apps]}
                 classes={classes}
                 onSelectTab={idx => {
+                  console.log(idx, " is the idx clicked")
                   setTc("")
                   navigate(`?index=${idx}`)
                 }}
@@ -169,16 +174,18 @@ export default function TestList() {
         </Grid>
         <Grid item xs={appSwitcherOpen ? 10 : 12}>
           {[...data.apps].map((k, i) => (
-            <TabPanelBox key={k.id}
-             value={value > data?.apps.length - 1 ? 0 : value} 
-             index={i}
-             >
-              <TestCasesTab 
-              app={k.id} 
-              refetch={refetch} 
-              tc={tc}
-               setTc={setTc} 
-               index={Number(index)}/>
+            <TabPanelBox
+              key={k.id}
+              value={value > data?.apps.length - 1 ? 0 : value}
+              index={i}
+            >
+              <TestCasesTab
+                app={k.id}
+                refetch={refetch}
+                tc={tc}
+                setTc={setTc}
+                index={Number(index)}
+              />
             </TabPanelBox>
           ))}
         </Grid>

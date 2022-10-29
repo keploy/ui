@@ -204,15 +204,19 @@ export default function TcsDetail(props: TcsDetailProps) {
                 <TabPanel value={valueRes} index={0}>
                   {data.httpReq?.body != null && (
                     <Grid item container sx={{ marginBottom: 10 }}>
-                      {isJSON(data.httpReq.body) != "object" && (
-                        <Typography sx={{ margin: 2 }}>{data.httpReq.body}</Typography>
-                      )}
-                      {isJSON(data.httpReq.body) == "object" && (
-                        <ReactJson
-                          quotesOnKeys={false}
-                          validationMessage={"JSON is invalid"}
-                          src={JSON.parse(data.httpReq.body)} />
-                      )}
+                      {data.httpReq.body.length > 0 ? (
+                        <>
+                          {isJSON(data.httpReq.body) != "object" && (
+                            <Typography sx={{ margin: 2 }}>{data.httpReq.body}</Typography>
+                          )}
+                          {isJSON(data.httpReq.body) == "object" && (
+                            <ReactJson
+                              quotesOnKeys={false}
+                              validationMessage={"JSON is invalid"}
+                              src={JSON.parse(data.httpReq.body)} />
+                          )}
+                        </>
+                      ) : <Typography sx={{ margin: 2 }}>Body is empty</Typography>}
                     </Grid>
                   )}
                 </TabPanel>

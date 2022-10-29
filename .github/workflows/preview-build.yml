@@ -28,7 +28,6 @@ jobs:
         run: |
           npm ci --legacy-peer-deps
           npm run format
-          npm run test
           npm run build
           
       - name: Upload dist artifact

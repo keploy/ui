@@ -1,0 +1,29 @@
+code {
+    display: block;
+    text-align: left;
+    white-space: pre;
+    position: relative;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 2;
+    background-color: #e8e8e8;
+    /* margin: 10px; */
+    border-radius: 5px;
+}
+
+.codeContent{
+    margin-left: 10px;
+}
+
+.docImg{
+    width: 50%;
+    margin-left: 90px;
+}
+
+.logoImg{
+    width: 25%;
+}
+
+.ident{
+    margin-left: 30px;
+}

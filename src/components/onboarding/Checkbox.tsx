@@ -21,13 +21,13 @@ export function Checkbox(props:CheckboxProps){
         handleCheckboxChange(label);
       }
     return(
-            <div >
-                <input value={props.label}
-                        checked={isChecked}
-                        onChange={toggleCheckboxChange}
-                        type="checkbox" className="chb-onboard chb-3-onboard" id={props.label} />
-                <label htmlFor={props.label}>{props.label}</label>
-                <hr/>
+            <div className="largeFont">
+                
+                    <input value={props.label}
+                            checked={isChecked}
+                            onChange={toggleCheckboxChange}
+                            type="checkbox" className="chb-onboard chb-3-onboard" id={props.label} />
+                    <label className="listFrameworks" htmlFor={props.label}>{props.label}</label>
             </div>
     )
 }
@@ -70,9 +70,9 @@ export function ListCheckboxes(props: ListCheckboxesProps){
                 <br/>
                 <div className="flex-2-onboard">
                     <form onSubmit={formSubmitEvent => {formSubmitEvent.preventDefault(); props.setLang("None");}}>
-                        <button className="btn-onboard btn-primary-onboard btn-round-1-onboard" type="submit">Previous</button>
+                        <button className="btn-onboard btn-primary-onboard btn-round-1-onboard largeFont" type="submit">Previous</button>
                     </form>
-                    <button className="btn-onboard btn-primary-onboard btn-round-1-onboard" type="submit">Next</button>
+                    <button className="btn-onboard btn-primary-onboard btn-round-1-onboard largeFont" type="submit">Next</button>
                 </div>
             </form>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState }from 'react';
+import Documentation from './Documentation';
 import { Accordion } from './Accordion';
 import {languages,frameworks,details,images,issueLink} from './Constant';
 import Empty from '../global/empty';
@@ -7,6 +8,7 @@ import { ListFrameworks,ListLangs } from "./OnboardUtils";
 export default function Onboard(){
     const [language, setLang] = useState("None");
     const [options, setOptions] = useState([]);
+    const [showPage, setShowPage] = useState(false);
 
     if(language === "None"){
         return(
@@ -35,12 +37,26 @@ export default function Onboard(){
                 </div>
                 <ListFrameworks method = {setOptions} frameworks = {framework} setLang = {setLang}/>
                 <div className="link-github">
-                <a href={issueLink[language]}>
-                    Create Issue for New Dependency on Github !
-                </a>
+                    <a href={issueLink[language]}>
+                        Create Issue for New Dependency on Github !
+                    </a>
                 </div>
                 <br/>
                 <br/>
+            </div>
+        )
+    }
+    if(showPage === true){
+        return(
+            <div>
+                <div className="documentation">
+                    <Documentation/>
+                </div>
+                <br />
+                <form onSubmit={formSubmitEvent => {formSubmitEvent.preventDefault();setShowPage(false);}}>
+                        <button className="btn-onboard btn-primary-onboard btn-round-1-onboard largeFont" type="submit">Previous</button>
+                </form>
+                <br />
             </div>
         )
     }
@@ -54,9 +70,14 @@ export default function Onboard(){
             <br/>
             <Accordion panels={ panels }/>
             <br/>
-            <form onSubmit={formSubmitEvent => {formSubmitEvent.preventDefault();setOptions([]);}}>
-              <button className="btn-onboard btn-primary-onboard btn-round-1-onboard" type="submit">Previous</button>
-            </form>
+            <div className="alignCenter">
+                <form onSubmit={formSubmitEvent => {formSubmitEvent.preventDefault();setOptions([]);}}>
+                    <button className="btn-onboard btn-primary-onboard btn-round-1-onboard largeFont" type="submit">Previous</button>
+                </form>
+                <form onSubmit={formSubmitEvent => {formSubmitEvent.preventDefault();setShowPage(true);}}>
+                    <button className="btn-onboard btn-primary-onboard btn-round-1-onboard largeFont" type="submit">Next</button>
+                </form>
+            </div>
         </div>
     )
 }

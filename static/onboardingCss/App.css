@@ -88,3 +88,16 @@
   /* position:static */
   padding-bottom: 7rem;
 }
+
+.alignCenter{
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  gap: 18px;
+}
+
+.documentation{
+  text-align: left;
+  margin-left: 155px;
+  margin-top: 45px;
+}

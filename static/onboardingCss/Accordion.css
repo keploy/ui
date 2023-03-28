@@ -6,7 +6,7 @@
 
 .accordion {
   width: 100%;
-  max-width: 700px;
+  max-width: 500px;
 }
 .panel {
   /* background-color: black; */
@@ -69,4 +69,8 @@
 }
 .panel:not(:last-child) {
   margin-bottom: 3px;
+}
+
+.clipboard{
+  margin-right: -80%;
 }
